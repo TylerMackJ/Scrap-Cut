@@ -1,3 +1,5 @@
+#include "line2dLL.h"
+
 enum square = { NotTaken, Taken, Good, Bad };
 
 int main() {
@@ -47,7 +49,7 @@ int main() {
     }
 
     // Find all cuts
-
+    line2dLL* cuts = newLine2dLL();
     for (int i = 0; i < gridH; i++) {
         for (int j = 0; j < gridW; j++) {
             // If Bad is next to Good and all by itself change to G?
