@@ -27,8 +27,8 @@ line2dLL* newLine2dLL() {
 
 void appendLine2dLL(line2dLL* ll, line2d line) {
     line2dLLN* node = malloc(sizeof(line2dLLN));
-    node.self = line;
-    node.next = NULL;
+    node->self = line;
+    node->next = NULL;
 
     if (ll->tail == NULL) {
         ll->head = node;
@@ -40,5 +40,14 @@ void appendLine2dLL(line2dLL* ll, line2d line) {
 }
 
 line2d getLine2dLL(line2dLL* ll, int index) {
-    
+    int i = 0;
+    line2dLLN* curNode = ll->head;
+    while(true) {
+        if (i == index) {
+            return curNode->self;
+        } else if (curNode == ll->tail) {
+            return NULL;
+        }
+        i++;
+    }
 }
