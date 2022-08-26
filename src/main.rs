@@ -182,10 +182,10 @@ fn main() {
                     match grid.get(x + i, y + j) {
                         Some(&Square::Taken(_)) => {
                             if x_taken.is_none() {
-                                x_taken = Some(*grid.get(x + i, y + j));
+                                x_taken = grid.get(x + i, y + j);
                             }
                             else {
-                                y_taken = Some(*grid.get(x + i, y + j));
+                                y_taken = *grid.get(x + i, y + j);
                             }
                         },
                         Some(&Square::Good) => good_count += 1,
