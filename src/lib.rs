@@ -39,6 +39,7 @@ mod tests {
         assert_eq!(grid.get(9, 9) == Some(&false), true);
         assert_eq!(grid.get(9, 9) == Some(&true), false);
         assert_eq!(grid.get(10, 10) == None, true);
-        assert_eq!(grid.get(10, 10) == Some(_), false);
+        assert_eq!(grid.get(10, 10) == Some(&true), false);
+        assert_eq!(grid.get(10, 10) == Some(&false), false);
     }
 }
