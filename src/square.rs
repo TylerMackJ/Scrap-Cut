@@ -1,7 +1,7 @@
 #[derive(Copy, Clone, PartialEq)]
 pub enum Square { Free, Taken(u8), Scrap, Good }
 
-trait IsTaken {
+pub trait IsTaken {
     fn is_taken(&self) -> bool;
 }
 
