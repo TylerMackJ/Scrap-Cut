@@ -7,6 +7,18 @@ impl Square {
     }
 }
 
+impl<'a> PartialEq<&'a Square> for Square {
+    fn eq(&self, other: &&'a Square) -> bool {
+        self == *other
+    }
+}
+
+impl<'a> PartialEq<Square> for &'a Square {
+    fn eq(&self, other: &Square) -> bool {
+        *self == other
+    }
+}
+
 struct Sheet {
     width: usize,
     height: usize,
