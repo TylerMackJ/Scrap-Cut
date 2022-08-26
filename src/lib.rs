@@ -1,3 +1,6 @@
+mod grid;
+mod square;
+
 use grid::*;
 use square::*;
 

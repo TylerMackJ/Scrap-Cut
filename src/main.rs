@@ -1,3 +1,6 @@
+mod grid;
+mod square;
+
 use std::ops::{Index, IndexMut};
 use grid::*;
 use square::*
