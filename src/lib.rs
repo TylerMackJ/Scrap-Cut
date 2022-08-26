@@ -1,6 +1,7 @@
 #[cfg(test)]
 mod tests {
-    use crate::*;
+    use grid::*;
+    use square::*;
 
     #[test]
     fn taken() {
