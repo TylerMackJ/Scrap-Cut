@@ -53,12 +53,12 @@ fn main() {
         for j in 0..grid[0].len()
         {
             // All Square::Free change
-            if grid.grid[i][j] == Square::Free
+            if grid[i][j] == Square::Free
             {
                 // Square::Good if 2 orthogonal squares are not Square::Taken else Square::Scrap
-                if (grid.grid[i + 1][j] != Square::Taken || grid[i - 1][j] != Square::Taken) && (grid[i][j + 1] != Square::Taken || grid[i][j - 1] != Square::Taken)
+                if (grid[i + 1][j] != Square::Taken(_) || grid[i - 1][j] != Square::Taken(_)) && (grid[i][j + 1] != Square::Taken(_) || grid[i][j - 1] != Square::Taken(_))
                 {
-                    grid.grid[i][j] == Square::Good;
+                    grid[i][j] == Square::Good;
                 }
                 else
                 {
@@ -88,7 +88,7 @@ fn main() {
             // Check top and bottom
             if i == 0 || i == grid.len() - 1
             {
-                if grid[i][j] == Square::Taken && grid[i][j + 1] == Square::Good
+                if grid[i][j] == Square::Taken(_) && grid[i][j + 1] == Square::Good
                 {
                     // Cut where the shape belonging to the current square is closest to the wall
                 }
@@ -97,7 +97,7 @@ fn main() {
             // Check left and right
             if j == 0 || j == grid[0].len() - 1
             {
-                if grid[i][j] == Square::Taken && grid[i + 1][j] == Square::Good
+                if grid[i][j] == Square::Taken(_) && grid[i + 1][j] == Square::Good
                 {
                     // Cut where the shape belonging to the current square is closest to the wall
                 }
@@ -124,7 +124,7 @@ fn main() {
                                 yTaken = grid[i + k][j + l];
                             }
                         },
-                        Square::Good => goodCount += 1;
+                        Square::Good => goodCount += 1,
                     }
                 }
             }
