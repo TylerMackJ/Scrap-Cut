@@ -1,4 +1,4 @@
-#[derive(Clone)]
+#[derive(Clone, PartialEq)]
 enum Square { Free, Taken(u8), Scrap, Good }
 
 struct Sheet {
@@ -24,7 +24,7 @@ fn main() {
 
     // Create Grid
     let resolution: usize = 2;
-    let mut grid: vec![Vec::new(); sheet.height / resolution];
+    let mut grid: Vec<Vec<Square>> = vec![Vec::new(); sheet.height / resolution];
 
     for mut row in grid
     {
@@ -114,8 +114,8 @@ fn main() {
                 {
                     match grid[i + k][j + l]
                     {
-                        Square::Taken => {
-                            if xTaken == None
+                        Square::Taken(_) => {
+                            if xTaken.is_none()
                             {
                                 xTaken = grid[i + k][j + l];
                             }
@@ -124,11 +124,11 @@ fn main() {
                                 yTaken = grid[i + k][j + l];
                             }
                         },
-                        Square::Good => goodCount++;
+                        Square::Good => goodCount += 1;
                     }
                 }
             }
-            if goodCount == 2 && xTaken != None && yTaken != None
+            if goodCount == 2 && !xTaken.is_none() && !yTaken.is_none()
             {
                 // Cut the thinnest point between xTaken and yTaken
             }
