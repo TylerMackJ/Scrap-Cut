@@ -12,13 +12,13 @@ struct Sheet {
     height: usize,
 }
 
-struct Grid<T> {
+struct Grid<T: Clone> {
     grid: Vec<T>,
     pub width: usize,
     pub height: usize,
 }
 
-impl<T> Grid<T> {
+impl<T: Clone> Grid<T> {
     fn new(width: usize, height: usize, default: T) -> Grid<T> {
         Grid {
             grid: vec![default; width * height],
@@ -100,7 +100,7 @@ fn main() {
             // Find Taken-Good-Wall Cuts
             // Check top and bottom
             if x == 0 || x == grid.width - 1 {
-                if grid.get(x, y).is_taken() && grid.(x, y + 1) == Square::Good {
+                if grid.get(x, y).is_taken() && grid.get(x, y + 1) == Square::Good {
                     // Cut where the shape belonging to the current square is closest to the wall
                 }
             }
