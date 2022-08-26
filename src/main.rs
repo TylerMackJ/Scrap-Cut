@@ -91,7 +91,7 @@ fn main() {
     }
 
     // Find all the cuts
-    let mut cuts = Vec::new<Line2D>();
+    let mut cuts = Vec::new::<Line2D>();
     for x in 0..grid.width {
         for y in 0..grid.height {
             // If Square::Scrap is next to Square::Good and all by itself
