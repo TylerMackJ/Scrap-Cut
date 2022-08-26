@@ -55,7 +55,7 @@ fn main() -> Result<()> {
             if grid.grid[i][j] == Square::Free
             {
                 // Square::Good if 2 orthogonal squares are not Square::Taken else Square::Scrap
-                if (grid.grid[i + 1][j] != Square::Taken || grid[i - 1][j] != Square::Taken) && grid[i][j + 1] != Square::Taken || grid[i][j - 1] != Square::Taken)
+                if (grid.grid[i + 1][j] != Square::Taken || grid[i - 1][j] != Square::Taken) && (grid[i][j + 1] != Square::Taken || grid[i][j - 1] != Square::Taken)
                 {
                     grid.grid[i][j] == Square::Good;
                 }
