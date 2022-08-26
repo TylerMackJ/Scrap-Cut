@@ -1,4 +1,4 @@
-#[derive(Clone, PartialEq)]
+#[derive(Copy, Clone, PartialEq)]
 enum Square { Free, Taken(u8), Scrap, Good }
 
 impl Square {
@@ -33,7 +33,7 @@ impl<T: Clone> Grid<T> {
         }
     }
 
-    fn get(&self, x: usize, y: usize) -> &mut T {
+    fn get(&mut self, x: usize, y: usize) -> &mut T {
         &mut self.grid[x + (y * self.width)]
     }
 }
@@ -56,7 +56,7 @@ fn main() {
 
     // Create Grid
     let resolution: usize = 2;
-    let mut grid: Grid<Square> = Grid::new(sheet.width / resolution, sheet.height / resolution, Square::Free);
+    let grid: Grid<Square> = Grid::new(sheet.width / resolution, sheet.height / resolution, Square::Free);
 
     /*
     // Place shapes into grid
