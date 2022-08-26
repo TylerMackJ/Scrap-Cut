@@ -1,4 +1,4 @@
-enum Square = { Free, Taken(u8), Scrap, Good }
+enum Square { Free, Taken(u8), Scrap, Good }
 
 struct Sheet {
     width: usize,
