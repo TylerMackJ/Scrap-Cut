@@ -26,6 +26,20 @@ struct Grid<T: Clone> {
     pub height: usize,
 }
 
+impl<T: Clone> Index<(usize, usize)> for Grid<T> {
+    type Output = T;
+
+    fn index(&self, (x, y): (usize, usize)) -> &Self::Output {
+        &self.grid[self.to_index(x, y)]
+    }
+}
+
+impl<T: Clone> IndexMut<(usize, usize)> for Grid<T> {
+    fn index_mut(&mut self, (x, y): (usize, usize)) -> &mut Self::Output {
+        &mut self.grid[self.to_index(x, y)]
+    }
+}
+
 impl<T: Clone> Grid<T> {
     fn new(width: usize, height: usize, default: T) -> Grid<T> {
         Grid {
@@ -46,20 +60,6 @@ impl<T: Clone> Grid<T> {
     #[inline(always)]
     fn to_index(&self, x: usize, y: usize) -> usize {
         x + (y * self.width)
-    }
-}
-
-impl<T: Clone> Index<(usize, usize)> for Grid<T> {
-    type Output = T;
-
-    fn index(&self, (x, y): (usize, usize)) -> &Self::Output {
-        &self.grid[self.to_index(x, y)]
-    }
-}
-
-impl<T: Clone> IndexMut<(usize, usize)> for Grid<T> {
-    fn index_mut(&mut self, (x, y): (usize, usize)) -> &mut Self::Output {
-        &mut self.grid[self.to_index(x, y)]
     }
 }
 
@@ -109,7 +109,7 @@ fn main() {
                     *grid.get_mut(x, y) = Square::Good;
                 }
                 else {
-                    *grid.get_mmut(x, y) = Square::Scrap;
+                    *grid.get_mut(x, y) = Square::Scrap;
                 }
             }
         }
