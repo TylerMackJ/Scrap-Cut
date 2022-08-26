@@ -28,7 +28,10 @@ impl PartialEq<Square> for &Square {
 
 impl PartialEq<Square> for Option<&Square> {
     fn eq(&self, other: &Square) -> bool {
-        matches!(*s, Some(other))
+        return match self {
+            Some(s) => *s == other,
+            None => false,
+        }
     }
 }
 
