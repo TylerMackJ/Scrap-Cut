@@ -81,10 +81,10 @@ fn main() {
             if grid.get(x, y) == Square::Free {
                 // Square::Good if 2 orthogonal squares are not Square::Taken else Square::Scrap
                 if (!grid.get(x, y).is_taken() || !grid.get(x - 1, y).is_taken()) && (!grid.get(x, y + 1).is_taken() || !grid.get(x, y - 1).is_taken()) {
-                    grid.get(x, y) = Square::Good;
+                    *grid.get(x, y) = Square::Good;
                 }
                 else {
-                    grid.get(x, y) = Square::Scrap;
+                    *grid.get(x, y) = Square::Scrap;
                 }
             }
         }
@@ -128,10 +128,10 @@ fn main() {
                     match grid.get(x + i, y + j) {
                         Square::Taken(_) => {
                             if xTaken.is_none() {
-                                xTaken = Some(grid.get(x + i, y + j));
+                                xTaken = Some(*grid.get(x + i, y + j));
                             }
                             else {
-                                yTaken = Some(grid.get(x + i, y + j));
+                                yTaken = Some(*grid.get(x + i, y + j));
                             }
                         },
                         Square::Good => goodCount += 1,
