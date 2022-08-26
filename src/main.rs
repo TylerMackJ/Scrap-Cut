@@ -109,7 +109,7 @@ fn main() {
             // Check top and bottom
             if x == 0 || x == grid.width - 1
             {
-                if grid.get(x, y).is_taken() && grid.(x, y + 1)) == Square::Good
+                if grid.get(x, y).is_taken() && grid.(x, y + 1) == Square::Good
                 {
                     // Cut where the shape belonging to the current square is closest to the wall
                 }
