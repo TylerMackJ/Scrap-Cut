@@ -1,3 +1,5 @@
+use std::ops::{Index, IndexMut};
+
 #[derive(Copy, Clone, PartialEq)]
 enum Square { Free, Taken(u8), Scrap, Good }
 
