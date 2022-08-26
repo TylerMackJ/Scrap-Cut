@@ -134,9 +134,11 @@ fn main() -> Result<()> {
         }
     }
 
+    /*
     // Add the cuts to gcode
     for cut in cuts
     {
         
     }
+    */
 }
