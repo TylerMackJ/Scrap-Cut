@@ -56,7 +56,7 @@ fn main() {
 
     // Create Grid
     let resolution: usize = 2;
-    let grid: Grid<Square> = Grid::new(sheet.width / resolution, sheet.height / resolution, Square::Free);
+    let mut grid: Grid<Square> = Grid::new(sheet.width / resolution, sheet.height / resolution, Square::Free);
 
     /*
     // Place shapes into grid
