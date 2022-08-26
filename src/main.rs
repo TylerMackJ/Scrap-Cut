@@ -175,8 +175,8 @@ fn main() {
             // Find xTaken-yTaken-Good cuts
             // Find 2x2 groups of xTaken-yTaken-Good-Good squares
             let mut good_count = 0;
-            let mut x_taken: Option<Square> = None;
-            let mut y_taken: Option<Square> = None;
+            let mut x_taken: Option<&Square> = None;
+            let mut y_taken: Option<&Square> = None;
             for i in 0..2 {
                 for j in 0..2 {
                     match grid.get(x + i, y + j) {
