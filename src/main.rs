@@ -6,16 +6,16 @@ struct Sheet {
 }
 
 struct Vec2 {
-    let x: f32,
-    let y: f32
+    x: f32,
+    y: f32
 }
 
 struct Line2D {
-    let start: Vec2,
-    let end: Vec2
+    start: Vec2,
+    end: Vec2
 }
 
-fn main() -> Result<()> {
+fn main() {
     let sheet = Sheet {
         width: 48,
         height: 96
@@ -23,7 +23,7 @@ fn main() -> Result<()> {
 
     // Create Grid
     let resolution: usize = 2;
-    let mut grid: vec![Vec::new<Square>(); sheet.height / resolution],
+    let mut grid: vec![Vec::new<Square>(); sheet.height / resolution];
 
     for mut row in .grid
     {
