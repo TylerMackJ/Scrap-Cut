@@ -1,3 +1,4 @@
+#[derive(Clone)]
 enum Square { Free, Taken(u8), Scrap, Good }
 
 struct Sheet {
@@ -68,7 +69,7 @@ fn main() {
     }
 
     // Find all the cuts
-    let mut cuts = Vec::new<Line2D>();
+    //let mut cuts = Vec::new<Line2D>();
     for i in 0..grid.len()
     {
         for j in 0..grid[0].len()
@@ -77,7 +78,7 @@ fn main() {
                 // Change to Square::Good
 
             // Find Square::Good-Square::Scrap cuts
-            if grid[i][k] == Square::Scrap && (grid[i + 1][j] == Square::Good || grid[i - 1][j] == Square::Good grid[i][j + 1] == Square::Good || grid[i][j - 1] == Square::Good)
+            if grid[i][j] == Square::Scrap && (grid[i + 1][j] == Square::Good || grid[i - 1][j] == Square::Good || grid[i][j + 1] == Square::Good || grid[i][j - 1] == Square::Good)
             {
                 // Find each shape that has a Square::Taken touching the current square
                     // Make cut from middle of current square to the closest point of each shape
@@ -105,8 +106,8 @@ fn main() {
             // Find xTaken-yTaken-Good cuts
             // Find 2x2 groups of xTaken-yTaken-Good-Good squares
             let mut goodCount = 0;
-            let mut xTaken Option<Square> = None;
-            let mut yTaken Option<Square> = None;
+            let mut xTaken: Option<Square> = None;
+            let mut yTaken: Option<Square> = None;
             for k in 0..2
             {
                 for l in 0..2
