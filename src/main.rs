@@ -30,6 +30,7 @@ fn main() -> Result<()> {
         row = vec![Square::Free; grid.width];
     }
 
+    /*
     // Place shapes into grid
     // Loop over gcode
         let mut cutting = 0;
@@ -43,7 +44,8 @@ fn main() -> Result<()> {
                 // Make stepped over squares Square::Taken(shape)
         // if m65
             cuting = 0;
-
+    */
+    
     // Find all the Square::Scrap and Square::Good squares
     for i in 0..grid.len()
     {
