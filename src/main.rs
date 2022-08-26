@@ -23,11 +23,11 @@ fn main() {
 
     // Create Grid
     let resolution: usize = 2;
-    let mut grid: vec![Vec::new<Square>(); sheet.height / resolution];
+    let mut grid: vec![Vec::new(); sheet.height / resolution];
 
-    for mut row in .grid
+    for mut row in grid
     {
-        row = vec![Square::Free; grid.width];
+        row = vec![Square::Free; sheet.width / resolution];
     }
 
     /*
