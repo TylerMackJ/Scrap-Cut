@@ -15,6 +15,15 @@ impl PartialEq<Square> for &Square {
     }
 }
 
+impl PartialEq<Square> for Option<&Square> {
+    fn eq(&self, other: &Square) -> bool {
+        return match self {
+            Some(s) => *s == other,
+            None => false,
+        }
+    }
+}
+
 struct Sheet {
     width: usize,
     height: usize,
