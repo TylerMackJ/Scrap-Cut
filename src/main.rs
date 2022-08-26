@@ -7,7 +7,7 @@ impl Square {
     }
 }
 
-impl PartialEq<Square> for &mut Square {
+impl PartialEq<Square> for &Square {
     fn eq(&self, other: &Square) -> bool {
         *self == other
     }
@@ -33,8 +33,31 @@ impl<T: Clone> Grid<T> {
         }
     }
 
-    fn get(&mut self, x: usize, y: usize) -> &mut T {
-        &mut self.grid[x + (y * self.width)]
+    fn get(&self, x: usize, y: usize) -> &T {
+        &self.grid[(x, y)]
+    }
+
+    fn get_mut(&mut self, x: usize, y: usize) -> &mut T {
+        &mut self.grid[(x, y)]
+    }
+
+    #[inline(always)]
+    fn to_index(&self, x: usize, y: usize) -> usize {
+        x + (y * self.width)
+    }
+}
+
+impl<T: Clone> Index<(usize, usize)> for Grid<T> {
+    type Output = T;
+
+    fn index(&self, (x, y): (usize, usize)) -> &Self::Output {
+        &self.grid[self.to_index(x, y)]
+    }
+}
+
+impl<T: Clone> IndexMut<(usize, usize)> for Grid<T> {
+    fn index_mut(&mut self, (x, y): (usize, usize)) -> &mut Self::Output {
+        &mut self.grid[self.to_index(x, y)]
     }
 }
 
@@ -81,10 +104,10 @@ fn main() {
             if grid.get(x, y) == Square::Free {
                 // Square::Good if 2 orthogonal squares are not Square::Taken else Square::Scrap
                 if (!grid.get(x, y).is_taken() || !grid.get(x - 1, y).is_taken()) && (!grid.get(x, y + 1).is_taken() || !grid.get(x, y - 1).is_taken()) {
-                    *grid.get(x, y) = Square::Good;
+                    *grid.get_mut(x, y) = Square::Good;
                 }
                 else {
-                    *grid.get(x, y) = Square::Scrap;
+                    *grid.get_mmut(x, y) = Square::Scrap;
                 }
             }
         }
