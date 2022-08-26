@@ -135,6 +135,7 @@ fn main() {
                             }
                         },
                         Square::Good => goodCount += 1,
+                        _ => {}
                     }
                 }
             }
