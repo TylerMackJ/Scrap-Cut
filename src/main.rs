@@ -7,7 +7,7 @@ impl Square {
     }
 }
 
-impl<'a> PartialEq<Square> for &'a Square {
+impl<'a> PartialEq<Square> for &mut 'a Square {
     fn eq(&mut self, other: &Square) -> bool {
         *self == other
     }
