@@ -130,12 +130,14 @@ fn main() {
                 // Square::Good if 2 orthogonal squares are not Square::Taken else Square::Scrap
                 if (!grid.get(x, y).is_taken() || !grid.get(x - 1, y).is_taken()) && (!grid.get(x, y + 1).is_taken() || !grid.get(x, y - 1).is_taken()) {
                     match grid.get_mut(x, y) {
-                        Some(s) => *s = Square::Good;
+                        Some(s) => *s = Square::Good,
+                        None => panic!(),
                     }
                 }
                 else {
                     match grid.get_mut(x, y) {
-                        Some(s) => *s = Square::Scrap;
+                        Some(s) => *s = Square::Scrap,
+                        None => panic!(),
                     }
                 }
             }
