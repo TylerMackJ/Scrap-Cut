@@ -1,3 +1,5 @@
+use std::ops::{Index, IndexMut};
+
 pub struct Grid<T: Clone> {
     grid: Vec<T>,
     pub width: usize,
