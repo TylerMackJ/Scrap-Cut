@@ -185,7 +185,7 @@ fn main() {
                                 x_taken = grid.get(x + i, y + j);
                             }
                             else {
-                                y_taken = *grid.get(x + i, y + j);
+                                y_taken = grid.get(x + i, y + j);
                             }
                         },
                         Some(&Square::Good) => good_count += 1,
