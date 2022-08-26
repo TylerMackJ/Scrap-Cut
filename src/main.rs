@@ -1,89 +1,8 @@
 use std::ops::{Index, IndexMut};
 
-#[derive(Copy, Clone, PartialEq)]
-enum Square { Free, Taken(u8), Scrap, Good }
-
-trait IsTaken {
-    fn is_taken(&self) -> bool;
-}
-
-impl IsTaken for Square {
-    fn is_taken(&self) -> bool {
-        matches!(self, Square::Taken(_))
-    }
-}
-
-impl IsTaken for Option<&Square> {
-    fn is_taken(&self) -> bool {
-        matches!(self, Some(Square::Taken(_)))
-    }
-}
-
-
-impl PartialEq<Square> for &Square {
-    fn eq(&self, other: &Square) -> bool {
-        *self == other
-    }
-}
-
-impl PartialEq<Square> for Option<&Square> {
-    fn eq(&self, other: &Square) -> bool {
-        return match self {
-            Some(s) => *s == other,
-            None => false,
-        }
-    }
-}
-
 struct Sheet {
     width: usize,
     height: usize,
-}
-
-struct Grid<T: Clone> {
-    grid: Vec<T>,
-    pub width: usize,
-    pub height: usize,
-}
-
-impl<T: Clone> Index<(usize, usize)> for Grid<T> {
-    type Output = T;
-
-    fn index(&self, (x, y): (usize, usize)) -> &Self::Output {
-        &self.grid[x + (y * self.width)]
-    }
-}
-
-impl<T: Clone> IndexMut<(usize, usize)> for Grid<T> {
-    fn index_mut(&mut self, (x, y): (usize, usize)) -> &mut Self::Output {
-        &mut self.grid[x + (y * self.width)]
-    }
-}
-
-impl<T: Clone> Grid<T> {
-    fn new(width: usize, height: usize, default: T) -> Grid<T> {
-        Grid {
-            grid: vec![default; width * height],
-            width: width,
-            height: height,
-        }
-    }
-
-    fn get(&self, x: usize, y: usize) -> Option<&T> {
-        return if (0..self.width).contains(&x) && (0..self.height).contains(&y) {
-            Some(&self[(x, y)])
-        } else {
-            None
-        }
-    }
-
-    fn get_mut(&mut self, x: usize, y: usize) -> Option<&mut T> {
-        return if (0..self.width).contains(&x) && (0..self.height).contains(&y) {
-            Some(&mut self[(x, y)])
-        } else {
-            None
-        }
-    }
 }
 
 struct Vec2 {
