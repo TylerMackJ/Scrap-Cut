@@ -21,7 +21,7 @@ impl<T: Clone> IndexMut<(usize, usize)> for Grid<T> {
 }
 
 impl<T: Clone> Grid<T> {
-    fn new(width: usize, height: usize, default: T) -> Grid<T> {
+    pub fn new(width: usize, height: usize, default: T) -> Grid<T> {
         Grid {
             grid: vec![default; width * height],
             width: width,
@@ -29,7 +29,7 @@ impl<T: Clone> Grid<T> {
         }
     }
 
-    fn get(&self, x: usize, y: usize) -> Option<&T> {
+    pub fn get(&self, x: usize, y: usize) -> Option<&T> {
         return if (0..self.width).contains(&x) && (0..self.height).contains(&y) {
             Some(&self[(x, y)])
         } else {
@@ -37,7 +37,7 @@ impl<T: Clone> Grid<T> {
         }
     }
 
-    fn get_mut(&mut self, x: usize, y: usize) -> Option<&mut T> {
+    pub fn get_mut(&mut self, x: usize, y: usize) -> Option<&mut T> {
         return if (0..self.width).contains(&x) && (0..self.height).contains(&y) {
             Some(&mut self[(x, y)])
         } else {
