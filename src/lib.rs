@@ -1,12 +1,7 @@
 #[cfg(test)]
-
-mod grid;
-mod square;
-
-use grid::*;
-use square::*:
-
 mod tests {
+    use crate::*;
+
     #[test]
     fn taken() {
         assert_eq!(Square::Taken(0).is_taken(), true);
