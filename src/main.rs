@@ -30,13 +30,13 @@ impl<T: Clone> Index<(usize, usize)> for Grid<T> {
     type Output = T;
 
     fn index(&self, (x, y): (usize, usize)) -> &Self::Output {
-        &self.grid[self.to_index(x, y)]
+        &self.grid[x + (y * self.width)]
     }
 }
 
 impl<T: Clone> IndexMut<(usize, usize)> for Grid<T> {
     fn index_mut(&mut self, (x, y): (usize, usize)) -> &mut Self::Output {
-        &mut self.grid[self.to_index(x, y)]
+        &mut self.grid[x + (y * self.width)]
     }
 }
 
@@ -49,17 +49,20 @@ impl<T: Clone> Grid<T> {
         }
     }
 
-    fn get(&self, x: usize, y: usize) -> &T {
-        &self[(x, y)]
+    fn get(&self, x: usize, y: usize) -> Option<&T> {
+        return if (0..self.width).contains(&x) && (0..self.height).contains(&y) {
+            Some(&self[(x, y)])
+        } else {
+            None
+        }
     }
 
-    fn get_mut(&mut self, x: usize, y: usize) -> &mut T {
-        &mut self[(x, y)]
-    }
-
-    #[inline(always)]
-    fn to_index(&self, x: usize, y: usize) -> usize {
-        x + (y * self.width)
+    fn get_mut(&mut self, x: usize, y: usize) -> Option<&mut T> {
+        return if (0..self.width).contains(&x) && (0..self.height).contains(&y) {
+            Some(&mut self[(x, y)])
+        } else {
+            None
+        }
     }
 }
 
