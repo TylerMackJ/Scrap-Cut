@@ -1,10 +1,11 @@
+#[cfg(test)]
+
 mod grid;
 mod square;
 
 use grid::*;
-use square::*;
+use square::*:
 
-#[cfg(test)]
 mod tests {
     #[test]
     fn taken() {
