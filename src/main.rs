@@ -9,6 +9,15 @@ impl Square {
     }
 }
 
+impl Option<Square> {
+    fn is_taken(&self) -> bool {
+        return match self {
+            Some(s) => matches!(s, Square::Taken(_)),
+            None => false,
+        }
+    }
+}
+
 impl PartialEq<Square> for &Square {
     fn eq(&self, other: &Square) -> bool {
         *self == other
