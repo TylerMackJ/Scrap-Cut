@@ -50,11 +50,11 @@ impl<T: Clone> Grid<T> {
     }
 
     fn get(&self, x: usize, y: usize) -> &T {
-        &self.grid[(x, y)]
+        &self[(x, y)]
     }
 
     fn get_mut(&mut self, x: usize, y: usize) -> &mut T {
-        &mut self.grid[(x, y)]
+        &mut self[(x, y)]
     }
 
     #[inline(always)]
