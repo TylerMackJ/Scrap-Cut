@@ -180,7 +180,7 @@ fn main() {
             for i in 0..2 {
                 for j in 0..2 {
                     match grid.get(x + i, y + j) {
-                        Square::Taken(_) => {
+                        Some(&Square::Taken(_)) => {
                             if x_taken.is_none() {
                                 x_taken = Some(*grid.get(x + i, y + j));
                             }
@@ -188,7 +188,7 @@ fn main() {
                                 y_taken = Some(*grid.get(x + i, y + j));
                             }
                         },
-                        Square::Good => good_count += 1,
+                        Some(&Square::Good) => good_count += 1,
                         _ => {}
                     }
                 }
