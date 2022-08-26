@@ -91,7 +91,7 @@ fn main() {
     }
 
     // Find all the cuts
-    //let mut cuts = Vec::new<Line2D>();
+    let mut cuts = Vec::new<Line2D>();
     for x in 0..grid.width {
         for y in 0..grid.height {
             // If Square::Scrap is next to Square::Good and all by itself
@@ -120,36 +120,34 @@ fn main() {
 
             // Find xTaken-yTaken-Good cuts
             // Find 2x2 groups of xTaken-yTaken-Good-Good squares
-            let mut goodCount = 0;
-            let mut xTaken: Option<Square> = None;
-            let mut yTaken: Option<Square> = None;
+            let mut good_count = 0;
+            let mut x_taken: Option<Square> = None;
+            let mut y_taken: Option<Square> = None;
             for i in 0..2 {
                 for j in 0..2 {
                     match grid.get(x + i, y + j) {
                         Square::Taken(_) => {
-                            if xTaken.is_none() {
-                                xTaken = Some(*grid.get(x + i, y + j));
+                            if x_taken.is_none() {
+                                x_taken = Some(*grid.get(x + i, y + j));
                             }
                             else {
-                                yTaken = Some(*grid.get(x + i, y + j));
+                                y_taken = Some(*grid.get(x + i, y + j));
                             }
                         },
-                        Square::Good => goodCount += 1,
+                        Square::Good => good_count += 1,
                         _ => {}
                     }
                 }
             }
-            if goodCount == 2 && !xTaken.is_none() && !yTaken.is_none() {
+            if good_count == 2 && !x_taken.is_none() && !y_taken.is_none() {
                 // Cut the thinnest point between xTaken and yTaken
             }
         }
     }
 
-    /*
     // Add the cuts to gcode
     for cut in cuts
     {
         
     }
-    */
 }
