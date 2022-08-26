@@ -20,7 +20,7 @@ struct Grid<T> {
 
 impl<T> Grid<T> {
     fn new(width: usize, height: usize, default: T) -> Grid<T> {
-        Grid<T> {
+        Grid {
             grid: vec![width * height],
             width = width,
             height = height,
