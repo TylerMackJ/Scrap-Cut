@@ -1,4 +1,6 @@
 use std::ops::{Index, IndexMut};
+use grid::*;
+use square::*
 
 struct Sheet {
     width: usize,

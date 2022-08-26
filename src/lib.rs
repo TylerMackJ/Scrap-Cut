@@ -1,3 +1,6 @@
+use grid::*;
+use square::*;
+
 #[cfg(test)]
 mod tests {
     #[test]
