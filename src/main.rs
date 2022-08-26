@@ -1,8 +1,8 @@
 mod grid;
 mod square;
 
-use grid::*;
-use square::*;
+use crate::grid::*;
+use crate::square::*;
 
 struct Sheet {
     width: usize,
