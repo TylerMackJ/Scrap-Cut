@@ -2,17 +2,17 @@
 pub enum Square { Free, Taken(u8), Scrap, Good }
 
 trait IsTaken {
-    pub fn is_taken(&self) -> bool;
+    fn is_taken(&self) -> bool;
 }
 
 impl IsTaken for Square {
-    pub fn is_taken(&self) -> bool {
+    fn is_taken(&self) -> bool {
         matches!(self, Square::Taken(_))
     }
 }
 
 impl IsTaken for Option<&Square> {
-    pub fn is_taken(&self) -> bool {
+    fn is_taken(&self) -> bool {
         matches!(self, Some(Square::Taken(_)))
     }
 }
