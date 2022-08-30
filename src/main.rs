@@ -145,7 +145,7 @@ fn main() {
             // Find Square::Good-Square::Scrap cuts
             if grid.get(x, y) == Square::Scrap && (grid.get(x + 1, y) == Square::Good || grid.get(x - 1, y) == Square::Good || grid.get(x, y + 1) == Square::Good || grid.get(x, y - 1) == Square::Good) {
                 // Find each shape that has a Square::Taken touching the current square
-                let taken_shapes = Vec::new();
+                let mut taken_shapes = Vec::new();
                 if let Some(Square::Taken(s)) = grid.get(x + 1, y) {
                     taken_shapes.push(s)
                 }
