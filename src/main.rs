@@ -6,6 +6,9 @@ use crate::grid::*;
 use crate::square::*;
 use crate::vec2::*;
 
+use std::fs::File;
+use std::io::BufReader;
+
 struct Sheet {
     width: usize,
     height: usize,
@@ -49,8 +52,8 @@ fn main() {
             let regex = Regex::new(r"X(\d+.\d+)\sY(\d+.\d+)").unwrap();
             let captures = regex.captures(line).unwrap();
             let end_pos = Vec2 {
-                x: caps.get(1).map_or("Panic", |m| m.as_str().parse::<f32>().unwrap()),
-                y: caps.get(2).map_or("Panic", |m| m.as_str().parse::<f32>().unwrap()),
+                x: captures.get(1).map_or("Panic", |m| m.as_str().parse::<f32>().unwrap()),
+                y: captures.get(2).map_or("Panic", |m| m.as_str().parse::<f32>().unwrap()),
             };
 
             if cutting {
@@ -65,15 +68,15 @@ fn main() {
             let regex = Regex::new(r"X(\d+.\d+)\sY(\d+.\d+)\sI(\d+.\d+)\sJ(\d+.\d+)").unwrap();
             let captures = regex.captures(line).unwrap();
             let end_pos = Vec2 {
-                x: caps.get(1).map_or("Panic", |m| m.as_str().parse::<f32>().unwrap()),
-                y: caps.get(2).map_or("Panic", |m| m.as_str().parse::<f32>().unwrap()),
+                x: captures.get(1).map_or("Panic", |m| m.as_str().parse::<f32>().unwrap()),
+                y: captures.get(2).map_or("Panic", |m| m.as_str().parse::<f32>().unwrap()),
             };
 
             if cutting {
                 // Get the center point of the arc
                 let center_point = Vec2 {
-                    x: caps.get(3).map_or("Panic", |m| m.as_str().parse::<f32>().unwrap()),
-                    y: caps.get(4).map_or("Panic", |m| m.as_str().parse::<f32>().unwrap()),
+                    x: captures.get(3).map_or("Panic", |m| m.as_str().parse::<f32>().unwrap()),
+                    y: captures.get(4).map_or("Panic", |m| m.as_str().parse::<f32>().unwrap()),
                 };
 
                 // G02 = clockwise, G03 = counterclockwise
@@ -92,7 +95,7 @@ fn main() {
         // Check for disable cutting instruction
         if line.starts_with("M65") {
             cutting = false;
-            current_shape++;
+            current_shape += 1;
         }
     }
     

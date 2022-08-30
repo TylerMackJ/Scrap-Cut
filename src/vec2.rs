@@ -1,6 +1,7 @@
 use std::f32::consts::PI;
+use regex::Regex;
 
-struct Vec2 {
+pub struct Vec2 {
     x: f32,
     y: f32,
 }
