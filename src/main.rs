@@ -51,7 +51,7 @@ fn main() {
         if line.unwrap().starts_with("G00") || line.unwrap().starts_with("G01") {
             // Capture X and Y
             let regex = Regex::new(r"X(\d+.\d+)\sY(\d+.\d+)").unwrap();
-            let captures = regex.captures(line.unwrap()).unwrap();
+            let captures = regex.captures(&line.unwrap()).unwrap();
             let end_pos = Vec2 {
                 x: captures.get(1).map_or("Panic", |m| m.as_str().parse::<f32>().unwrap()),
                 y: captures.get(2).map_or("Panic", |m| m.as_str().parse::<f32>().unwrap()),
@@ -67,17 +67,17 @@ fn main() {
         } else if line.unwrap().starts_with("G02") || line.unwrap().starts_with("G03") { // Check for angular movement instructions
             // Capture X, Y, I, and J
             let regex = Regex::new(r"X(\d+.\d+)\sY(\d+.\d+)\sI(\d+.\d+)\sJ(\d+.\d+)").unwrap();
-            let captures = regex.captures(line.unwrap()).unwrap();
+            let captures = regex.captures(&line.unwrap()).unwrap();
             let end_pos = Vec2 {
-                x: captures.get(1).map_or("Panic", |m| m.as_str().parse::<f32>().unwrap()),
-                y: captures.get(2).map_or("Panic", |m| m.as_str().parse::<f32>().unwrap()),
+                x: captures.get(1).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
+                y: captures.get(2).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
             };
 
             if cutting {
                 // Get the center point of the arc
                 let center_point = Vec2 {
-                    x: captures.get(3).map_or("Panic", |m| m.as_str().parse::<f32>().unwrap()),
-                    y: captures.get(4).map_or("Panic", |m| m.as_str().parse::<f32>().unwrap()),
+                    x: captures.get(3).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
+                    y: captures.get(4).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
                 };
 
                 // G02 = clockwise, G03 = counterclockwise

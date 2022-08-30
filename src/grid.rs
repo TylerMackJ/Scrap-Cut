@@ -31,17 +31,17 @@ impl<T: Clone> Grid<T> {
         }
     }
 
-    pub fn get<U: Into<usize> + Copy>(&self, x: U, y: U) -> Option<&T> {
-        return if (0..self.width).contains(&(x.into())) && (0..self.height).contains(&(y.into())) {
-            Some(&self[(x.into(), y.into())])
+    pub fn get(&self, x: usize, y: usize) -> Option<&T> {
+        return if (0..self.width).contains(&x) && (0..self.height).contains(&y) {
+            Some(&self[(x, y)])
         } else {
             None
         }
     }
 
-    pub fn get_mut<U: Into<usize> + Copy>(&mut self, x: U, y: U) -> Option<&mut T> {
-        return if (0..self.width).contains(&(x.into())) && (0..self.height).contains(&(y.into())) {
-            Some(&mut self[(x.into(), y.into())])
+    pub fn get_mut(&mut self, x: usize, y: usize) -> Option<&mut T> {
+        return if (0..self.width).contains(&x) && (0..self.height).contains(&y) {
+            Some(&mut self[(x, y)])
         } else {
             None
         }
