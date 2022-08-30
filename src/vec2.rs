@@ -7,7 +7,7 @@ pub struct Vec2 {
 }
 
 impl PartialEq<Vec2> for Vec2 {
-    fn eq(&self, other: &Vec2) -> {
+    fn eq(&self, other: &Vec2) -> bool {
         self.x == other.x && self.y == other.y
     }
 }
