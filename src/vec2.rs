@@ -21,18 +21,18 @@ impl Vec2 {
         // Consider angles positive
         let central_angle = todo!();
         let step_angle = step / radius;
-        if (central_angle >= step_angle) {
+        if central_angle >= step_angle {
             self = to;
         } else {
-            let x_rotation = {
+            let x_rotation = Vec2 {
                 x: cos(step_angle),
                 y: sin(step_angle),
             };
 
-            let y_rotation = {
+            let y_rotation = Vec2 {
                 x: cos(step_angle + (PI / 2)),
                 y: sin(step_angle + (PI / 2)),
-            }
+            };
 
             if !clockwise {
                 x_rotation.x = -x_rotation.x;

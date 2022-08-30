@@ -31,15 +31,7 @@ impl<T: Clone> Grid<T> {
         }
     }
 
-    pub fn get<usize>(&self, x: usize, y: usize) -> Option<&T> {
-        return if (0..self.width).contains(&x) && (0..self.height).contains(&y) {
-            Some(&self[(x, y)])
-        } else {
-            None
-        }
-    }
-
-    pub fn get<f32>(&self, x: f32, y: f32) -> Option<&T> {
+    pub fn get<U: Into<usize>>(&self, x: U, y: U) -> Option<&T> {
         return if (0..self.width).contains(&(x as usize)) && (0..self.height).contains(&(y as usize)) {
             Some(&self[(x as usize, y as usize)])
         } else {
@@ -47,15 +39,7 @@ impl<T: Clone> Grid<T> {
         }
     }
 
-    pub fn get_mut<usize>(&mut self, x: usize, y: usize) -> Option<&mut T> {
-        return if (0..self.width).contains(&x) && (0..self.height).contains(&y) {
-            Some(&mut self[(x, y)])
-        } else {
-            None
-        }
-    }
-
-    pub fn get_mut<f32>(&mut self, x: f32, y: f32) -> Option<&mut T> {
+    pub fn get_mut<U: Into<usize>>(&mut self, x: U, y: U) -> Option<&mut T> {
         return if (0..self.width).contains(&(x as usize)) && (0..self.height).contains(&(y as usize)) {
             Some(&mut self[(x as usize, y as usize)])
         } else {
