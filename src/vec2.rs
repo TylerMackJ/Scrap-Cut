@@ -28,7 +28,7 @@ impl Vec2 {
         // Consider angles positive
         let mut central_angle: f32 = (((self.x - center_point.x) * (to.x - center_point.x) + (self.y) * (center_point.y))/(radius * radius)).acos();
         if !clockwise {
-            central_angle = 360 - central_angle;
+            central_angle = 360.0 - central_angle;
         } 
 
         let step_angle = step / radius;
