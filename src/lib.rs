@@ -132,7 +132,7 @@ mod tests {
             y: 1.0,
         };
 
-        vector.curve_towards(end_position, center_point, PI / 2.0, true);
+        vector.curve_towards(end_position, center_point, PI / 2.0, false);
         assert_eq!(vector.x, 2.0);
         assert_eq!(vector.y, 1.0);
         vector.curve_towards(end_position, center_point, PI / 2.0, false);
