@@ -36,6 +36,7 @@ mod tests {
     #[test]
     fn grid_boundaries() {
         let grid: Grid<bool> = Grid::new(10, 10, 2, false);
+
         assert_eq!(grid.get(0, 0), Some(&false));
         assert_ne!(grid.get(0, 0), Some(&true));
 
@@ -48,17 +49,39 @@ mod tests {
     }
 
     #[test]
-    fn sheet() {
+    fn sheet_boundaries() {
         let grid: Grid<bool> = Grid::new(10, 10, 2, false);
-        assert_eq!(grid.get(0.0, 0.0), Some(&false));
-        assert_ne!(grid.get(0.0, 0.0), Some(&true));
 
-        assert_eq!(grid.get(9.9, 9.9), Some(&false));
-        assert_ne!(grid.get(9.9, 9.9), Some(&true));
+        assert_eq!(grid.sheet_get(0.0, 0.0), Some(&false));
+        assert_ne!(grid.sheet_get(0.0, 0.0), Some(&true));
 
-        assert_eq!(grid.get(10.0, 10.0), None);
-        assert_ne!(grid.get(10.0, 10.0), Some(&true));
-        assert_ne!(grid.get(10.0, 10.0), Some(&false));
+        assert_eq!(grid.sheet_get(9.9, 9.9), Some(&false));
+        assert_ne!(grid.sheet_get(9.9, 9.9), Some(&true));
+
+        assert_eq!(grid.sheet_get(10.0, 10.0), None);
+        assert_ne!(grid.sheet_get(10.0, 10.0), Some(&true));
+        assert_ne!(grid.sheet_get(10.0, 10.0), Some(&false));
+    }
+
+    #[test]
+    fn grid_mut() {
+        let grid: Grid<bool> = Grid::new(10, 10, 2, false);
+
+        assert_eq!(grid.get(2, 2), Some(&false));
+        assert_ne!(grid.get(2, 2), Some(&true));
+        if let Some(mut_ref) = grid.get_mut(2, 2) {
+            *mut_ref = true;
+        }
+        assert_eq!(grid.get(2, 2), Some(&true));
+        assert_ne!(grid.get(2, 2), Some(&false));
+
+        assert_eq!(grid.sheet_get(4.9, 4.0), Some(&true));
+        assert_ne!(grid.sheet_get(4.9, 4.0), Some(&false));
+        if let Some(mut_ref) = grid.sheet_get_mut(4.9, 4.0) {
+            *mut_ref = false;
+        }
+        assert_eq!(grid.sheet_get(4.9, 4.0), Some(&false));
+        assert_ne!(grid.sheet_get(4.9, 4.0), Some(&true));
     }
 
     #[test]

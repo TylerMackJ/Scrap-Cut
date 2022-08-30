@@ -1,4 +1,4 @@
-#[derive(Copy, Clone, PartialEq)]
+#[derive(Copy, Clone, Debug, PartialEq)]
 pub enum Square { Free, Taken(u8), Scrap, Good }
 
 pub trait IsTaken {
