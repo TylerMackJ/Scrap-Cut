@@ -10,25 +10,14 @@ use std::fs::File;
 use std::io::{BufReader, BufRead};
 use regex::Regex;
 
-struct Sheet {
-    width: usize,
-    height: usize,
-}
-
 struct Line2D {
     start: Vec2,
     end: Vec2,
 }
 
 fn main() {
-    let sheet = Sheet {
-        width: 48,
-        height: 96
-    };
-
     // Create Grid
-    let resolution: usize = 2;
-    let mut grid: Grid<Square> = Grid::new(sheet.width / resolution, sheet.height / resolution, Square::Free, resolution);
+    let mut grid: Grid<Square> = Grid::new(48, 96, 2, Square::Free);
 
     // Place shapes into grid
     let filename = "./gcode.gm";
@@ -45,7 +34,7 @@ fn main() {
         // Check for enable cutting instruction
         if line.as_ref().unwrap().starts_with("M64") {
             cutting = true;
-            if let Some(mut_ref) = grid.get_mut(head.x as usize, head.y as usize) {
+            if let Some(mut_ref) = grid.sheet_get_mut(head.x, head.y) {
                 *mut_ref = Square::Taken(current_shape);
             }
         }
@@ -61,7 +50,7 @@ fn main() {
 
             if cutting {
                 head.move_towards(end_pos, 0.5);
-                if let Some(mut_ref) = grid.get_mut(head.x as usize, head.y as usize) {
+                if let Some(mut_ref) = grid.sheet_get_mut(head.x, head.y) {
                     *mut_ref = Square::Taken(current_shape);
                 }
             } else {
@@ -88,7 +77,7 @@ fn main() {
                 let clockwise = line.as_ref().unwrap().starts_with("G02");
 
                 head.curve_towards(end_pos, center_point, 0.5, clockwise);
-                if let Some(mut_ref) = grid.get_mut(head.x as usize, head.y as usize) {
+                if let Some(mut_ref) = grid.sheet_get_mut(head.x, head.y) {
                     *mut_ref = Square::Taken(current_shape);
                 }
             } else {
