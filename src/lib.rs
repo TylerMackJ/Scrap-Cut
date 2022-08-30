@@ -135,13 +135,13 @@ mod tests {
         vector.curve_towards(end_position, center_point, PI / 2.0, false);
         assert!(vector.x > 1.9 && vector.x < 2.1, "{:?}", vector);
         assert!(vector.y > 0.9 && vector.y < 1.1, "{:?}", vector) ;
-        vector.curve_towards(end_position, center_point, PI / 2.0, false);
+        vector.curve_towards(end_position, center_point, PI / 2.0, true);
         assert!(vector.x > 0.9 && vector.x < 1.1, "{:?}", vector);
         assert!(vector.y > 1.9 && vector.y < 2.1, "{:?}", vector);
-        vector.curve_towards(end_position, center_point, PI / 2.0, false);
+        vector.curve_towards(end_position, center_point, PI / 2.0, true);
         assert!(vector.x > -0.1 && vector.x < 0.1, "{:?}", vector);
         assert!(vector.y > 0.9 && vector.y < 1.1, "{:?}", vector);
-        vector.curve_towards(end_position, center_point, PI / 2.0, false);
+        vector.curve_towards(end_position, center_point, PI / 2.0, true);
         assert!(vector.x > 0.9 && vector.x < 1.1, "{:?}", vector);
         assert!(vector.y > -0.1 && vector.y < 0.1, "{:?}", vector);
     }
