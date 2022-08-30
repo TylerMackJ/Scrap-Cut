@@ -41,7 +41,7 @@ fn main() {
         // Check for enable cutting instruction
         if line.starts_with("M64") {
             cutting = true;
-            grid.get_mut<f32>(head.x, head.y) = Square::Taken(current_shape);
+            grid.get_mut(head.x, head.y) = Square::Taken(current_shape);
         }
         // Check for linear movement instructions
         if line.starts_with("G00") || line.starts_with("G01") {
@@ -55,7 +55,7 @@ fn main() {
 
             if cutting {
                 head.move_towards(end_pos, 0.5);
-                grid.get_mut<f32>(head.x, head.y) = Square::Taken(current_shape);
+                grid.get_mut(head.x, head.y) = Square::Taken(current_shape);
             } else {
                 // If we are not cutting then we can jump to final position
                 head = end_pos;
@@ -80,7 +80,7 @@ fn main() {
                 let clockwise = line.starts_with("G02");
 
                 head.curve_towards(end_pos, center_point, 0.5, clockwise);
-                grid.get_mut<f32>(head.x, head.y) = Square::Taken(current_shape);
+                grid.get_mut(head.x, head.y) = Square::Taken(current_shape);
             } else {
                 // If we are not cutting then we can jump to final position
                 head = end_pos;
@@ -100,16 +100,16 @@ fn main() {
     for x in 0..grid.width {
         for y in 0..grid.height {
             // All Square::Free change
-            if grid.get<usize>(x, y) == Square::Free {
+            if grid.get(x, y) == Square::Free {
                 // Square::Good if 2 orthogonal squares are not Square::Taken else Square::Scrap
-                if (!grid.get<usize>(x, y).is_taken() || !grid.get<usize>(x - 1, y).is_taken()) && (!grid.get<usize>(x, y + 1).is_taken() || !grid.get(x, y - 1).is_taken()) {
-                    match grid.get_mut<usize>(x, y) {
+                if (!grid.get(x, y).is_taken() || !grid.get(x - 1, y).is_taken()) && (!grid.get(x, y + 1).is_taken() || !grid.get(x, y - 1).is_taken()) {
+                    match grid.get_mut(x, y) {
                         Some(s) => *s = Square::Good,
                         None => panic!(),
                     }
                 }
                 else {
-                    match grid.get_mut<usize>(x, y) {
+                    match grid.get_mut(x, y) {
                         Some(s) => *s = Square::Scrap,
                         None => panic!(),
                     }
@@ -126,7 +126,7 @@ fn main() {
                 // Change to Square::Good
 
             // Find Square::Good-Square::Scrap cuts
-            if grid.get<usize>(x, y) == Square::Scrap && (grid.get<usize>(x + 1, y) == Square::Good || grid.get<usize>(x - 1, y) == Square::Good || grid.get(x, y + 1) == Square::Good || grid.get(x, y - 1) == Square::Good) {
+            if grid.get(x, y) == Square::Scrap && (grid.get(x + 1, y) == Square::Good || grid.get(x - 1, y) == Square::Good || grid.get(x, y + 1) == Square::Good || grid.get(x, y - 1) == Square::Good) {
                 // Find each shape that has a Square::Taken touching the current square
                     // Make cut from middle of current square to the closest point of each shape
             }
@@ -134,14 +134,14 @@ fn main() {
             // Find Taken-Good-Wall Cuts
             // Check top and bottom
             if x == 0 || x == grid.width - 1 {
-                if grid.get<usize>(x, y).is_taken() && grid.get<usize>(x, y + 1) == Square::Good {
+                if grid.get(x, y).is_taken() && grid.get(x, y + 1) == Square::Good {
                     // Cut where the shape belonging to the current square is closest to the wall
                 }
             }
 
             // Check left and right
             if y == 0 || y == grid.height - 1 {
-                if grid.get<usize>(x, y).is_taken() && grid.get<usize>(x + 1, y) == Square::Good {
+                if grid.get(x, y).is_taken() && grid.get(x + 1, y) == Square::Good {
                     // Cut where the shape belonging to the current square is closest to the wall
                 }
             }
@@ -153,13 +153,13 @@ fn main() {
             let mut y_taken: Option<&Square> = None;
             for i in 0..2 {
                 for j in 0..2 {
-                    match grid.get<usize>(x + i, y + j) {
+                    match grid.get(x + i, y + j) {
                         Some(&Square::Taken(_)) => {
                             if x_taken.is_none() {
-                                x_taken = grid.get<usize>(x + i, y + j);
+                                x_taken = grid.get(x + i, y + j);
                             }
                             else {
-                                y_taken = grid.get<usize>(x + i, y + j);
+                                y_taken = grid.get(x + i, y + j);
                             }
                         },
                         Some(&Square::Good) => good_count += 1,
