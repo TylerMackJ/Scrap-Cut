@@ -1,4 +1,4 @@
-use std::f64::consts::PI;
+use std::f32::consts::PI;
 
 struct Vec2 {
     x: f32,
@@ -7,19 +7,19 @@ struct Vec2 {
 
 impl Vec2 {
     fn move_towards(&mut self, to: Vec2, step: f32) {
-        let distance = (f32::powf(to.x - self.x, 2) + f32::powf(to.y - self.y, 2)).sqrt();
+        let distance = (f32::powf(to.x - self.x, 2.0) + f32::powf(to.y - self.y, 2.0)).sqrt();
         let t = step / distance;
-        if t >= 1 {
+        if t >= 1.0 {
             *self = to;
         } else {
-            self.x = ((1 - t) * self.x) + (t * to.x);
-            self.y = ((1 - t) * self.y) + (t * to.y);
+            self.x = ((1.0 - t) * self.x) + (t * to.x);
+            self.y = ((1.0 - t) * self.y) + (t * to.y);
         }
     }
 
     fn curve_towards(&mut self, to: Vec2, center_point: Vec2, step: f32, clockwise: bool) {
         // Radians
-        let radius = (f32::powf(center_point.x - self.x, 2) + f32::powf(center_point.y - self.y, 2)).sqrt();
+        let radius = (f32::powf(center_point.x - self.x, 2.0) + f32::powf(center_point.y - self.y, 2.0)).sqrt();
         // Consider angles positive
         let central_angle = todo!();
         let step_angle = step / radius;
