@@ -32,18 +32,18 @@ fn main() {
     let mut current_shape = 0;
     let linear_regex = Regex::new(r"X(\d+.\d+)\sY(\d+.\d+)").unwrap();
     let curve_regex = Regex::new(r"X(\d+.\d+)\sY(\d+.\d+)\sI(\d+.\d+)\sJ(\d+.\d+)").unwrap();
-    for line in file_buf.lines() {
+    for line in file_buf.lines().map(|line| line.unwrap()) {
         // Check for enable cutting instruction
-        if line.as_ref().unwrap().starts_with("M64") {
+        if line.starts_with("M64") {
             cutting = true;
             if let Some(mut_ref) = grid.sheet_get_mut(head.x, head.y) {
                 *mut_ref = Square::Taken(current_shape);
             }
         }
         // Check for linear movement instructions
-        if line.as_ref().unwrap().starts_with("G00") || line.as_ref().unwrap().starts_with("G01") {
+        if line.starts_with("G00") || line.starts_with("G01") {
             // Capture X and Y
-            let captures = linear_regex.captures(&line.as_ref().unwrap()).unwrap();
+            let captures = linear_regex.captures(&line).unwrap();
             let end_pos = Vec2 {
                 x: captures.get(1).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
                 y: captures.get(2).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
@@ -60,9 +60,9 @@ fn main() {
                 // If we are not cutting then we can jump to final position
                 head = end_pos;
             }
-        } else if line.as_ref().unwrap().starts_with("G02") || line.as_ref().unwrap().starts_with("G03") { // Check for angular movement instructions
+        } else if line.starts_with("G02") || line.starts_with("G03") { // Check for angular movement instructions
             // Capture X, Y, I, and J
-            let captures = curve_regex.captures(&line.as_ref().unwrap()).unwrap();
+            let captures = curve_regex.captures(&line).unwrap();
             let end_pos = Vec2 {
                 x: captures.get(1).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
                 y: captures.get(2).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
@@ -76,7 +76,7 @@ fn main() {
                 };
 
                 // G02 = clockwise, G03 = counterclockwise
-                let clockwise = line.as_ref().unwrap().starts_with("G02");
+                let clockwise = line.starts_with("G02");
 
                 while head != end_pos {
                     head.curve_towards(end_pos, center_point, 0.5, clockwise);
@@ -93,7 +93,7 @@ fn main() {
         }
         
         // Check for disable cutting instruction
-        if line.as_ref().unwrap().starts_with("M65") {
+        if line.starts_with("M65") {
             cutting = false;
             current_shape += 1;
         }
@@ -125,13 +125,44 @@ fn main() {
     let mut cuts: Vec<Line2D> = Vec::new();
     for x in 0..grid.width {
         for y in 0..grid.height {
-            // If Square::Scrap is next to Square::Good and all by itself
-                // Change to Square::Good
+            // If Square::Scrap is next to Square::Good and all by itself change to Square::Good
+            if grid.get(x, y) == Square::Scrap {
+                let mut found_good = false;
+                let mut found_scrap = false;
+                if grid.get(x + 1, y) == Square::Good || grid.get(x - 1, y) == Square::Good || grid.get(x, y + 1) == Square::Good || grid.get(x, y - 1) == Square::Good {
+                    found_good = true;
+                }
+                if grid.get(x + 1, y) == Square::Scrap || grid.get(x - 1, y) == Square::Scrap || grid.get(x, y + 1) == Square::Scrap || grid.get(x, y - 1) == Square::Scrap {
+                    found_scrap = true;
+                }
+                if found_good && !found_scrap {
+                    if let Some(mut_ref) = grid.get_mut(x, y) {
+                        *mut_ref = Square::Good;
+                    }
+                }
+            }
 
             // Find Square::Good-Square::Scrap cuts
             if grid.get(x, y) == Square::Scrap && (grid.get(x + 1, y) == Square::Good || grid.get(x - 1, y) == Square::Good || grid.get(x, y + 1) == Square::Good || grid.get(x, y - 1) == Square::Good) {
                 // Find each shape that has a Square::Taken touching the current square
-                    // Make cut from middle of current square to the closest point of each shape
+                let taken_shapes = Vec::new();
+                if let Some(Square::Taken(s)) == grid.get(x + 1, y) {
+                    taken_shapes.push(s)
+                }
+                if let Some(Square::Taken(s)) == grid.get(x - 1, y) {
+                    taken_shapes.push(s)
+                }
+                if let Some(Square::Taken(s)) == grid.get(x, y + 1) {
+                    taken_shapes.push(s)
+                }
+                if let Some(Square::Taken(s)) == grid.get(x, y - 1) {
+                    taken_shapes.push(s)
+                }
+                
+                // Make cut from middle of current square to the closest point of each shape
+                for shape in taken_shapes {
+                    todo!();
+                }
             }
 
             // Find Taken-Good-Wall Cuts
@@ -139,6 +170,7 @@ fn main() {
             if x == 0 || x == grid.width - 1 {
                 if grid.get(x, y).is_taken() && grid.get(x, y + 1) == Square::Good {
                     // Cut where the shape belonging to the current square is closest to the wall
+                    todo!();
                 }
             }
 
@@ -146,6 +178,7 @@ fn main() {
             if y == 0 || y == grid.height - 1 {
                 if grid.get(x, y).is_taken() && grid.get(x + 1, y) == Square::Good {
                     // Cut where the shape belonging to the current square is closest to the wall
+                    todo!();
                 }
             }
 
@@ -172,6 +205,7 @@ fn main() {
             }
             if good_count == 2 && !x_taken.is_none() && !y_taken.is_none() {
                 // Cut the thinnest point between xTaken and yTaken
+                todo()!;
             }
         }
     }
@@ -179,6 +213,6 @@ fn main() {
     // Add the cuts to gcode
     for cut in cuts
     {
-        
+        todo()!;
     }
 }
