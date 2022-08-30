@@ -65,7 +65,7 @@ mod tests {
 
     #[test]
     fn grid_mut() {
-        let grid: Grid<bool> = Grid::new(10, 10, 2, false);
+        let mut grid: Grid<bool> = Grid::new(10, 10, 2, false);
 
         assert_eq!(grid.get(2, 2), Some(&false));
         assert_ne!(grid.get(2, 2), Some(&true));
