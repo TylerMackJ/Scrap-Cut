@@ -21,7 +21,8 @@ impl Vec2 {
         // Radians
         let radius = (f32::powf(center_point.x - self.x, 2.0) + f32::powf(center_point.y - self.y, 2.0)).sqrt();
         // Consider angles positive
-        let central_angle = todo!();
+        todo!();
+        let central_angle: f32 = 0;
         let step_angle = step / radius;
         if central_angle >= step_angle {
             *self = to;
