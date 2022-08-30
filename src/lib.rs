@@ -97,21 +97,21 @@ mod tests {
         };
 
         vector.move_towards(end_position, 1.0);
-        assert_eq!(vector.x = 1.0);
-        assert_eq!(vector.y = 0.0);
+        assert_eq!(vector.x, 1.0);
+        assert_eq!(vector.y, 0.0);
         vector.move_towards(end_position, 1.0);
-        assert_eq!(vector.x = 2.0);
-        assert_eq!(vector.y = 0.0);
+        assert_eq!(vector.x, 2.0);
+        assert_eq!(vector.y, 0.0);
 
         end_position.x = 2.0;
         end_position.y = 2.0;
 
         vector.move_towards(end_position, 1.0);
-        assert_eq!(vector.x = 2.0);
-        assert_eq!(vector.y = 1.0);
+        assert_eq!(vector.x, 2.0);
+        assert_eq!(vector.y, 1.0);
         vector.move_towards(end_position, 1.0);
-        assert_eq!(vector.x = 2.0);
-        assert_eq!(vector.y = 2.0);
+        assert_eq!(vector.x, 2.0);
+        assert_eq!(vector.y, 2.0);
     }
 
     #[test]
