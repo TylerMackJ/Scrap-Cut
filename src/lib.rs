@@ -1,10 +1,12 @@
 mod grid;
 mod square;
+mod vec2;
 
 #[cfg(test)]
 mod tests {
     use crate::grid::*;
     use crate::square::*;
+    use crate::vec2::*;
 
     #[test]
     fn taken() {
@@ -41,5 +43,15 @@ mod tests {
         assert_eq!(grid.get(10, 10) == None, true);
         assert_eq!(grid.get(10, 10) == Some(&true), false);
         assert_eq!(grid.get(10, 10) == Some(&false), false);
+    }
+
+    #[test]
+    fn vec2_move_towards() {
+        todo!();
+    }
+
+    #[test]
+    fn vec2_curve_towards() {
+        todo!();
     }
 }
