@@ -6,6 +6,12 @@ pub struct Vec2 {
     pub y: f32,
 }
 
+impl PartialEq<Vec2> for Vec2 {
+    fn eq(&self, other: &Vec2) -> {
+        self.x == other.x && self.y == other.y
+    }
+}
+
 impl Vec2 {
     pub fn move_towards(&mut self, to: Vec2, step: f32) {
         let distance = (f32::powf(to.x - self.x, 2.0) + f32::powf(to.y - self.y, 2.0)).sqrt();
@@ -24,7 +30,7 @@ impl Vec2 {
         // Consider angles positive
         let mut central_angle: f32 = (((self.x - center_point.x) * (to.x - center_point.x) + (self.y) * (center_point.y))/(radius * radius)).acos();
         if clockwise {
-            central_angle = 360.0 - central_angle;
+            central_angle = PI - central_angle;
         }
 
         let step_angle = step / radius;

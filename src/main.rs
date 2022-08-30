@@ -50,9 +50,11 @@ fn main() {
             };
 
             if cutting {
-                head.move_towards(end_pos, 0.5);
-                if let Some(mut_ref) = grid.sheet_get_mut(head.x, head.y) {
-                    *mut_ref = Square::Taken(current_shape);
+                while head != end_pos {
+                    head.move_towards(end_pos, 0.5);
+                    if let Some(mut_ref) = grid.sheet_get_mut(head.x, head.y) {
+                        *mut_ref = Square::Taken(current_shape);
+                    }
                 }
             } else {
                 // If we are not cutting then we can jump to final position
@@ -76,9 +78,11 @@ fn main() {
                 // G02 = clockwise, G03 = counterclockwise
                 let clockwise = line.as_ref().unwrap().starts_with("G02");
 
-                head.curve_towards(end_pos, center_point, 0.5, clockwise);
-                if let Some(mut_ref) = grid.sheet_get_mut(head.x, head.y) {
-                    *mut_ref = Square::Taken(current_shape);
+                while head != end_pos {
+                    head.curve_towards(end_pos, center_point, 0.5, clockwise);
+                    if let Some(mut_ref) = grid.sheet_get_mut(head.x, head.y) {
+                        *mut_ref = Square::Taken(current_shape);
+                    }
                 }
             } else {
                 // If we are not cutting then we can jump to final position
