@@ -133,16 +133,16 @@ mod tests {
         };
 
         vector.curve_towards(end_position, center_point, PI / 2.0, false);
-        assert_eq!(vector.x, 2.0);
-        assert_eq!(vector.y, 1.0);
+        assert_eq!(vector.x > 1.9 && vector.x < 2.1);
+        assert_eq!(vector.y > 0.9 && vector.y < 1.1);
         vector.curve_towards(end_position, center_point, PI / 2.0, false);
-        assert_eq!(vector.x, 1.0);
-        assert_eq!(vector.y, 2.0);
+        assert_eq!(vector.x > 0.9 && vector.x < 1.1);
+        assert_eq!(vector.y > 1.9 && vector.y < 2.1);
         vector.curve_towards(end_position, center_point, PI / 2.0, false);
-        assert_eq!(vector.x, 0.0);
-        assert_eq!(vector.y, 1.0);
+        assert_eq!(vector.x > -0.1 && vector.x < 0.1);
+        assert_eq!(vector.y > 0.9 && vector.y < 1.1);
         vector.curve_towards(end_position, center_point, PI / 2.0, false);
-        assert_eq!(vector.x, 1.0);
-        assert_eq!(vector.y, 0.0);
+        assert_eq!(vector.x > 0.9 && vector.x < 1.1);
+        assert_eq!(vector.y > -0.1 && vector.y < 0.1);
     }
 }
