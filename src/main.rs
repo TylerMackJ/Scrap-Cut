@@ -146,16 +146,16 @@ fn main() {
             if grid.get(x, y) == Square::Scrap && (grid.get(x + 1, y) == Square::Good || grid.get(x - 1, y) == Square::Good || grid.get(x, y + 1) == Square::Good || grid.get(x, y - 1) == Square::Good) {
                 // Find each shape that has a Square::Taken touching the current square
                 let taken_shapes = Vec::new();
-                if let Some(Square::Taken(s)) == grid.get(x + 1, y) {
+                if let Some(Square::Taken(s)) = grid.get(x + 1, y) {
                     taken_shapes.push(s)
                 }
-                if let Some(Square::Taken(s)) == grid.get(x - 1, y) {
+                if let Some(Square::Taken(s)) = grid.get(x - 1, y) {
                     taken_shapes.push(s)
                 }
-                if let Some(Square::Taken(s)) == grid.get(x, y + 1) {
+                if let Some(Square::Taken(s)) = grid.get(x, y + 1) {
                     taken_shapes.push(s)
                 }
-                if let Some(Square::Taken(s)) == grid.get(x, y - 1) {
+                if let Some(Square::Taken(s)) = grid.get(x, y - 1) {
                     taken_shapes.push(s)
                 }
                 
@@ -205,7 +205,7 @@ fn main() {
             }
             if good_count == 2 && !x_taken.is_none() && !y_taken.is_none() {
                 // Cut the thinnest point between xTaken and yTaken
-                todo()!;
+                todo!();
             }
         }
     }
@@ -213,6 +213,6 @@ fn main() {
     // Add the cuts to gcode
     for cut in cuts
     {
-        todo()!;
+        todo!();
     }
 }
