@@ -6,8 +6,6 @@ use crate::grid::*;
 use crate::square::*;
 use crate::vec2::*;
 
-use std::f64::consts::PI;
-
 struct Sheet {
     width: usize,
     height: usize,

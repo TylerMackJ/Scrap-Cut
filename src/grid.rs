@@ -32,16 +32,16 @@ impl<T: Clone> Grid<T> {
     }
 
     pub fn get<U: Into<usize>>(&self, x: U, y: U) -> Option<&T> {
-        return if (0..self.width).contains(&(x as usize)) && (0..self.height).contains(&(y as usize)) {
-            Some(&self[(x as usize, y as usize)])
+        return if (0..self.width).contains(&(x.into<usize>())) && (0..self.height).contains(&(y.into<usize>())) {
+            Some(&self[(x.into<usize>(), y.into<usize>())])
         } else {
             None
         }
     }
 
     pub fn get_mut<U: Into<usize>>(&mut self, x: U, y: U) -> Option<&mut T> {
-        return if (0..self.width).contains(&(x as usize)) && (0..self.height).contains(&(y as usize)) {
-            Some(&mut self[(x as usize, y as usize)])
+        return if (0..self.width).contains(&(x.into<usize>())) && (0..self.height).contains(&(y.into<usize>())) {
+            Some(&mut self[(x.into<usize>(), y.into<usize>())])
         } else {
             None
         }

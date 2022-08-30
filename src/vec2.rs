@@ -1,3 +1,5 @@
+use std::f64::consts::PI;
+
 struct Vec2 {
     x: f32,
     y: f32,
@@ -25,13 +27,13 @@ impl Vec2 {
             self = to;
         } else {
             let x_rotation = Vec2 {
-                x: cos(step_angle),
-                y: sin(step_angle),
+                x: step_angle.cos(),
+                y: step_angle.sin(),
             };
 
             let y_rotation = Vec2 {
-                x: cos(step_angle + (PI / 2)),
-                y: sin(step_angle + (PI / 2)),
+                x: (step_angle + (PI / 2)).cos(),
+                y: (step_angle + (PI / 2)).sin(),
             };
 
             if !clockwise {
