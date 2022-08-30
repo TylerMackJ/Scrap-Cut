@@ -1,13 +1,12 @@
 use std::f32::consts::PI;
-use regex::Regex;
 
 pub struct Vec2 {
-    x: f32,
-    y: f32,
+    pub x: f32,
+    pub y: f32,
 }
 
 impl Vec2 {
-    fn move_towards(&mut self, to: Vec2, step: f32) {
+    pub fn move_towards(&mut self, to: Vec2, step: f32) {
         let distance = (f32::powf(to.x - self.x, 2.0) + f32::powf(to.y - self.y, 2.0)).sqrt();
         let t = step / distance;
         if t >= 1.0 {
@@ -18,7 +17,7 @@ impl Vec2 {
         }
     }
 
-    fn curve_towards(&mut self, to: Vec2, center_point: Vec2, step: f32, clockwise: bool) {
+    pub fn curve_towards(&mut self, to: Vec2, center_point: Vec2, step: f32, clockwise: bool) {
         // Radians
         let radius = (f32::powf(center_point.x - self.x, 2.0) + f32::powf(center_point.y - self.y, 2.0)).sqrt();
         // Consider angles positive

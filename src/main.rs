@@ -7,7 +7,8 @@ use crate::square::*;
 use crate::vec2::*;
 
 use std::fs::File;
-use std::io::BufReader;
+use std::io::{BufReader, BufRead};
+use regex::Regex;
 
 struct Sheet {
     width: usize,
@@ -36,8 +37,8 @@ fn main() {
     // Loop over gcode
     let mut cutting = false;
     let mut head = Vec2 {
-        x: 0,
-        y: 0,
+        x: 0.0,
+        y: 0.0,
     };
     let mut current_shape = 0;
     for line in file_buf.lines() {
