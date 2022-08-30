@@ -35,12 +35,12 @@ impl Vec2 {
         if central_angle >= step_angle {
             *self = to;
         } else {
-            let x_rotation = Vec2 {
+            let mut x_rotation = Vec2 {
                 x: step_angle.cos(),
                 y: step_angle.sin(),
             };
 
-            let y_rotation = Vec2 {
+            let mut y_rotation = Vec2 {
                 x: (step_angle + (PI / 2.0)).cos(),
                 y: (step_angle + (PI / 2.0)).sin(),
             };
