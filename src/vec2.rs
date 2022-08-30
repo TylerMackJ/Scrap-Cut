@@ -6,8 +6,8 @@ struct Vec2 {
 }
 
 impl Vec2 {
-    fn move_towards(&mut self, &to: Vec2, step: f32) {
-        let distance = ((to.x - self.x) ** 2 + (to.y - self.y) ** 2).sqrt();
+    fn move_towards(&mut self, to: Vec2, step: f32) {
+        let distance = (f32::pow(to.x - self.x, 2) + f32::pow(to.y - self.y, 2)).sqrt();
         let t = step / distance;
         if t >= 1 {
             self = to;
@@ -17,9 +17,9 @@ impl Vec2 {
         }
     }
 
-    fn curve_towards(&mut self, &to: Vec2, &center_point: Vec2, step: f32, clockwise: bool) {
+    fn curve_towards(&mut self, to: Vec2, center_point: Vec2, step: f32, clockwise: bool) {
         // Radians
-        let radius = ((center_point.x - self.x) ** 2 + (center_point.y - self.y) ** 2).sqrt();
+        let radius = (f32::pow(center_point.x - self.x, 2) + f32::pow(center_point.y - self.y, 2)).sqrt();
         // Consider angles positive
         let central_angle = todo!();
         let step_angle = step / radius;
@@ -32,8 +32,8 @@ impl Vec2 {
             };
 
             let y_rotation = Vec2 {
-                x: (step_angle + (PI / 2)).cos(),
-                y: (step_angle + (PI / 2)).sin(),
+                x: (step_angle + (PI / 2.0)).cos(),
+                y: (step_angle + (PI / 2.0)).sin(),
             };
 
             if !clockwise {
