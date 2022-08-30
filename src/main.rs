@@ -46,7 +46,7 @@ fn main() {
         if line.unwrap().starts_with("M64") {
             cutting = true;
             if let Some(mut_ref) = grid.get_mut(head.x as usize, head.y as usize) {
-                mut_ref = Square::Taken(current_shape);
+                *mut_ref = Square::Taken(current_shape);
             }
         }
         // Check for linear movement instructions
@@ -62,7 +62,7 @@ fn main() {
             if cutting {
                 head.move_towards(end_pos, 0.5);
                 if let Some(mut_ref) = grid.get_mut(head.x as usize, head.y as usize) {
-                    mut_ref = Square::Taken(current_shape);
+                    *mut_ref = Square::Taken(current_shape);
                 }
             } else {
                 // If we are not cutting then we can jump to final position
@@ -89,7 +89,7 @@ fn main() {
 
                 head.curve_towards(end_pos, center_point, 0.5, clockwise);
                 if let Some(mut_ref) = grid.get_mut(head.x as usize, head.y as usize) {
-                    mut_ref = Square::Taken(current_shape);
+                    *mut_ref = Square::Taken(current_shape);
                 }
             } else {
                 // If we are not cutting then we can jump to final position
