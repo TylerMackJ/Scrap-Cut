@@ -43,15 +43,15 @@ fn main() {
     let mut current_shape = 0;
     for line in file_buf.lines() {
         // Check for enable cutting instruction
-        if line.starts_with("M64") {
+        if line.unwrap().starts_with("M64") {
             cutting = true;
             grid.get_mut(head.x, head.y) = Square::Taken(current_shape);
         }
         // Check for linear movement instructions
-        if line.starts_with("G00") || line.starts_with("G01") {
+        if line.unwrap().starts_with("G00") || line.unwrap().starts_with("G01") {
             // Capture X and Y
             let regex = Regex::new(r"X(\d+.\d+)\sY(\d+.\d+)").unwrap();
-            let captures = regex.captures(line).unwrap();
+            let captures = regex.captures(line.unwrap()).unwrap();
             let end_pos = Vec2 {
                 x: captures.get(1).map_or("Panic", |m| m.as_str().parse::<f32>().unwrap()),
                 y: captures.get(2).map_or("Panic", |m| m.as_str().parse::<f32>().unwrap()),
@@ -64,10 +64,10 @@ fn main() {
                 // If we are not cutting then we can jump to final position
                 head = end_pos;
             }
-        } else if line.starts_with("G02") || line.starts_with("G03") { // Check for angular movement instructions
+        } else if line.unwrap().starts_with("G02") || line.unwrap().starts_with("G03") { // Check for angular movement instructions
             // Capture X, Y, I, and J
             let regex = Regex::new(r"X(\d+.\d+)\sY(\d+.\d+)\sI(\d+.\d+)\sJ(\d+.\d+)").unwrap();
-            let captures = regex.captures(line).unwrap();
+            let captures = regex.captures(line.unwrap()).unwrap();
             let end_pos = Vec2 {
                 x: captures.get(1).map_or("Panic", |m| m.as_str().parse::<f32>().unwrap()),
                 y: captures.get(2).map_or("Panic", |m| m.as_str().parse::<f32>().unwrap()),
@@ -81,7 +81,7 @@ fn main() {
                 };
 
                 // G02 = clockwise, G03 = counterclockwise
-                let clockwise = line.starts_with("G02");
+                let clockwise = line.unwrap().starts_with("G02");
 
                 head.curve_towards(end_pos, center_point, 0.5, clockwise);
                 grid.get_mut(head.x, head.y) = Square::Taken(current_shape);
@@ -94,7 +94,7 @@ fn main() {
         }
         
         // Check for disable cutting instruction
-        if line.starts_with("M65") {
+        if line.unwrap().starts_with("M65") {
             cutting = false;
             current_shape += 1;
         }
