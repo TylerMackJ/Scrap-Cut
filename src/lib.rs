@@ -7,6 +7,7 @@ mod tests {
     use crate::grid::*;
     use crate::square::*;
     use crate::vec2::*;
+    use std::f32::consts::PI;
 
     #[test]
     fn taken() {
@@ -91,7 +92,7 @@ mod tests {
             y: 0.0
         };
 
-        let mut end_position = Vec2{
+        let mut end_position = Vec2 {
             x: 2.0,
             y: 0.0,
         };
@@ -116,6 +117,32 @@ mod tests {
 
     #[test]
     fn vec2_curve_towards() {
-        todo!();
+        let mut vector = Vec2 {
+            x: 1.0,
+            y: 2.0
+        };
+
+        let end_position = Vec2 {
+            x: 1.0,
+            y: 0.0,
+        };
+
+        let center_point = Vec2 {
+            x: 1.0,
+            y: 1.0,
+        };
+
+        vector.curve_towards(end_position, center_point, PI / 2.0, true);
+        assert_eq!(vector.x, 2.0);
+        assert_eq!(vector.y, 1.0);
+        vector.curve_towards(end_position, center_point, PI / 2.0, false);
+        assert_eq!(vector.x, 1.0);
+        assert_eq!(vector.y, 2.0);
+        vector.curve_towards(end_position, center_point, PI / 2.0, false);
+        assert_eq!(vector.x, 0.0);
+        assert_eq!(vector.y, 1.0);
+        vector.curve_towards(end_position, center_point, PI / 2.0, false);
+        assert_eq!(vector.x, 1.0);
+        assert_eq!(vector.y, 0.0);
     }
 }

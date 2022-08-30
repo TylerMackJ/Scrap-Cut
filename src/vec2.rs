@@ -19,11 +19,14 @@ impl Vec2 {
     }
 
     pub fn curve_towards(&mut self, to: Vec2, center_point: Vec2, step: f32, clockwise: bool) {
+        if (self.x == to.x && self.y == to.y) {
+            return;
+        }
+        
         // Radians
         let radius = (f32::powf(center_point.x - self.x, 2.0) + f32::powf(center_point.y - self.y, 2.0)).sqrt();
         // Consider angles positive
-        todo!();
-        let central_angle: f32 = 0.0;
+        let central_angle: f32 = (((self.x - center_point.x) * (to.x - center_point.x) + (self.y) * (center_point.y))/(radius * radius)).arccos();
         let step_angle = step / radius;
         if central_angle >= step_angle {
             *self = to;
