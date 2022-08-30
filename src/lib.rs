@@ -24,7 +24,7 @@ mod tests {
     #[test]
     fn partial_eq_ref_square() {
         assert_eq!(&Square::Free, Square::Free);
-        assert_eq!(&Square::Free, Square::Scrap);
+        assert_ne!(&Square::Free, Square::Scrap);
     }
 
     #[test]
@@ -86,7 +86,32 @@ mod tests {
 
     #[test]
     fn vec2_move_towards() {
-        todo!();
+        let mut vector = Vec2 {
+            x: 0.0,
+            y: 0.0
+        };
+
+        let mut end_position = Vec2{
+            x: 2.0,
+            y: 0.0,
+        };
+
+        vector.move_towards(end_position, 1.0);
+        assert_eq!(vector.x = 1.0);
+        assert_eq!(vector.y = 0.0);
+        vector.move_towards(end_position, 1.0);
+        assert_eq!(vector.x = 2.0);
+        assert_eq!(vector.y = 0.0);
+
+        end_position.x = 2.0;
+        end_position.y = 2.0;
+
+        vector.move_towards(end_position, 1.0);
+        assert_eq!(vector.x = 2.0);
+        assert_eq!(vector.y = 1.0);
+        vector.move_towards(end_position, 1.0);
+        assert_eq!(vector.x = 2.0);
+        assert_eq!(vector.y = 2.0);
     }
 
     #[test]
