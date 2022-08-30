@@ -30,6 +30,8 @@ fn main() {
         y: 0.0,
     };
     let mut current_shape = 0;
+    let linear_regex = Regex::new(r"X(\d+.\d+)\sY(\d+.\d+)").unwrap();
+    let curve_regex = Regex::new(r"X(\d+.\d+)\sY(\d+.\d+)\sI(\d+.\d+)\sJ(\d+.\d+)").unwrap();
     for line in file_buf.lines() {
         // Check for enable cutting instruction
         if line.as_ref().unwrap().starts_with("M64") {
@@ -41,8 +43,7 @@ fn main() {
         // Check for linear movement instructions
         if line.as_ref().unwrap().starts_with("G00") || line.as_ref().unwrap().starts_with("G01") {
             // Capture X and Y
-            let regex = Regex::new(r"X(\d+.\d+)\sY(\d+.\d+)").unwrap();
-            let captures = regex.captures(&line.as_ref().unwrap()).unwrap();
+            let captures = linear_regex.captures(&line.as_ref().unwrap()).unwrap();
             let end_pos = Vec2 {
                 x: captures.get(1).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
                 y: captures.get(2).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
@@ -59,8 +60,7 @@ fn main() {
             }
         } else if line.as_ref().unwrap().starts_with("G02") || line.as_ref().unwrap().starts_with("G03") { // Check for angular movement instructions
             // Capture X, Y, I, and J
-            let regex = Regex::new(r"X(\d+.\d+)\sY(\d+.\d+)\sI(\d+.\d+)\sJ(\d+.\d+)").unwrap();
-            let captures = regex.captures(&line.as_ref().unwrap()).unwrap();
+            let captures = curve_regex.captures(&line.as_ref().unwrap()).unwrap();
             let end_pos = Vec2 {
                 x: captures.get(1).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
                 y: captures.get(2).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
