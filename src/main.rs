@@ -10,6 +10,11 @@ use std::fs::File;
 use std::io::{BufReader, BufRead};
 use regex::Regex;
 
+struct Line2D {
+    start: Vec2,
+    end: Vec2,
+}
+
 fn main() {
     // Create Grid
     let mut grid: Grid<Square> = Grid::new(48, 96, 2, Square::Free);
