@@ -10,39 +10,55 @@ mod tests {
 
     #[test]
     fn taken() {
-        assert_eq!(Square::Taken(0).is_taken(), true);
-        assert_eq!(Square::Free.is_taken(), false);
+        assert!(Square::Taken(0).is_taken());
+        assert!(!Square::Free.is_taken());
     }
 
     #[test]
     fn option_taken() {
-        assert_eq!(Some(&Square::Taken(0)).is_taken(), true);
-        assert_eq!(Some(&Square::Free).is_taken(), false);
-        assert_eq!(None.is_taken(), false)
+        assert!(Some(&Square::Taken(0)).is_taken());
+        assert!(!Some(&Square::Free).is_taken());
+        assert!(!None.is_taken())
     }
 
     #[test]
     fn partial_eq_ref_square() {
-        assert_eq!(&Square::Free == Square::Free, true);
-        assert_eq!(&Square::Free == Square::Scrap, false);
+        assert_eq!(&Square::Free, Square::Free);
+        assert_eq!(&Square::Free, Square::Scrap);
     }
 
     #[test]
     fn partial_eq_option_ref_square() {
-        assert_eq!(Some(&Square::Free) == Square::Free, true);
-        assert_eq!(Some(&Square::Scrap) == Square::Free, false);
+        assert_eq!(Some(&Square::Free), Square::Free);
+        assert_ne!(Some(&Square::Scrap), Square::Free);
     }
 
     #[test]
     fn grid_boundaries() {
-        let grid: Grid<bool> = Grid::new(10, 10, false);
-        assert_eq!(grid.get(0, 0) == Some(&false), true);
-        assert_eq!(grid.get(0, 0) == Some(&true), false);
-        assert_eq!(grid.get(9, 9) == Some(&false), true);
-        assert_eq!(grid.get(9, 9) == Some(&true), false);
-        assert_eq!(grid.get(10, 10) == None, true);
-        assert_eq!(grid.get(10, 10) == Some(&true), false);
-        assert_eq!(grid.get(10, 10) == Some(&false), false);
+        let grid: Grid<bool> = Grid::new(10, 10, 2, false);
+        assert_eq!(grid.get(0, 0), Some(&false));
+        assert_ne!(grid.get(0, 0), Some(&true));
+
+        assert_eq!(grid.get(4, 4), Some(&false));
+        assert_ne!(grid.get(4, 4), Some(&true));
+
+        assert_eq!(grid.get(5, 5), None);
+        assert_ne!(grid.get(5, 5), Some(&true));
+        assert_ne!(grid.get(5, 5), Some(&false));
+    }
+
+    #[test]
+    fn sheet() {
+        let grid: Grid<bool> = Grid::new(10, 10, 2, false);
+        assert_eq!(grid.get(0.0, 0.0), Some(&false));
+        assert_ne!(grid.get(0.0, 0.0), Some(&true));
+
+        assert_eq!(grid.get(9.9, 9.9), Some(&false));
+        assert_ne!(grid.get(9.9, 9.9), Some(&true));
+
+        assert_eq!(grid.get(10.0, 10.0), None);
+        assert_ne!(grid.get(10.0, 10.0), Some(&true));
+        assert_ne!(grid.get(10.0, 10.0), Some(&false));
     }
 
     #[test]
