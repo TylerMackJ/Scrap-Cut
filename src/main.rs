@@ -76,7 +76,7 @@ fn main() {
                 }
             } else {
                 // If we are not cutting then we can jump to final position
-                head = cut.end;
+                //head = cut.end;
                 // This case should not occur, non cutting lines should be linear
                 panic!("Non linear movement while not cutting found!");
             }
@@ -371,5 +371,5 @@ fn main() {
         lines.push("M65".to_string());
     }
     lines.push("G00 X0.000 Y0.000".to_string());
-    fs::write(filename, lines.join("\n"));
+    fs::write(filename, lines.join("\n")).unwrap();
 }

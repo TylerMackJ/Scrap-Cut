@@ -47,6 +47,7 @@ impl<T: Clone> Grid<T> {
         }
     }
 
+    /*
     pub fn sheet_get(&self, x: f32, y: f32) -> Option<&T> {
         let rough_x = (x / self.resolution as f32) as usize;
         let rough_y = (y / self.resolution as f32) as usize;
@@ -56,6 +57,7 @@ impl<T: Clone> Grid<T> {
             None
         }
     }
+    */
 
     pub fn sheet_get_mut(&mut self, x: f32, y: f32) -> Option<&mut T> {
         let rough_x = (x / self.resolution as f32) as usize;
