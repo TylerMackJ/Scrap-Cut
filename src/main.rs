@@ -158,12 +158,12 @@ fn main() {
                     let start = Vec2 {
                         x: (x * grid.resolution) as f32 + 0.5,
                         y: (y * grid.resolution) as f32 + 0.5,
-                    }
+                    };
 
                     let closest_end = Vec2 {
                         x: 0,
                         y: 0,
-                    }
+                    };
 
                     // Loop over all cuts related the shape
                     for cut_type in shape_cuts.get_mut(shape).unwrap() {
@@ -221,7 +221,7 @@ fn main() {
                         let closest_point = Vec2 {
                             x: 0,
                             y: 0,
-                        }
+                        };
     
                         todo!();
                         
