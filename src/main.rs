@@ -15,8 +15,31 @@ fn main() {
     // Create Grid
     let mut grid: Grid<Square> = Grid::new(48, 96, 2, Square::Free);
 
+    // Place shapes onto grid
+    find_taken(&mut grid, "./gcode.gm");
+    
+    find_good_and_scrap(&mut grid);
+
+    find_cuts(&grid);
+
+    // Add the cuts to gcode
     // Open GCode
-    let filename = "./gcode.gm";
+    let file = File::open(filename).unwrap();
+    let mut lines = BufReader::new(file).lines().map(|l| l.unwrap()).collect::<Vec<String>>();
+    while !lines.pop().unwrap().starts_with("G00") {}
+    for cut in cuts
+    {
+        lines.push(format!("G00 X{:.3} Y{:.3}", cut.start.x, cut.start.y));
+        lines.push("M64".to_string());
+        lines.push(format!("G01 X{:.3} Y{:.3} F100.00", cut.end.x, cut.end.y));
+        lines.push("M65".to_string());
+    }
+    lines.push("G00 X0.000 Y0.000".to_string());
+    fs::write(filename, lines.join("\n")).unwrap();
+}
+
+fn find_taken(&mut grid: Grid<Square>, filename: &str) {
+    // Open GCode
     let file = File::open(filename).unwrap();
     let file_buf = BufReader::new(file);
 
@@ -91,7 +114,9 @@ fn main() {
             current_shape += 1;
         }
     }
-    
+}
+
+fn find_good_and_scrap(&mut grid: Grid<Square>) {
     // Find all the Square::Scrap and Square::Good squares
     for x in 0..grid.width {
         for y in 0..grid.height {
@@ -113,7 +138,9 @@ fn main() {
             }
         }
     }
+}
 
+fn find_cuts(&grid) -> Vec<LinearCut> {
     // Find all the cuts
     let mut cuts: Vec<LinearCut> = Vec::new();
     for x in 0..grid.width {
@@ -357,19 +384,5 @@ fn main() {
             }
         }
     }
-
-    // Add the cuts to gcode
-    // Open GCode
-    let file = File::open(filename).unwrap();
-    let mut lines = BufReader::new(file).lines().map(|l| l.unwrap()).collect::<Vec<String>>();
-    while !lines.pop().unwrap().starts_with("G00") {}
-    for cut in cuts
-    {
-        lines.push(format!("G00 X{:.3} Y{:.3}", cut.start.x, cut.start.y));
-        lines.push("M64".to_string());
-        lines.push(format!("G01 X{:.3} Y{:.3} F100.00", cut.end.x, cut.end.y));
-        lines.push("M65".to_string());
-    }
-    lines.push("G00 X0.000 Y0.000".to_string());
-    fs::write(filename, lines.join("\n")).unwrap();
+    cuts
 }
