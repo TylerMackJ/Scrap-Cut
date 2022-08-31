@@ -1,4 +1,5 @@
 use crate::vec2::*;
+use regex::Regex;
 
 pub struct LinearCut {
     pub start: Vec2,
@@ -34,7 +35,7 @@ impl LinearCut {
             y: captures.get(2).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
         };
 
-        new(start, end)
+        Self::new(start, end)
     }
 }
 
@@ -61,6 +62,6 @@ impl CurveCut {
             y: captures.get(4).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
         };
 
-        new(start, end, center, clockwise)
+        Self::new(start, end, center, clockwise)
     }
 }
