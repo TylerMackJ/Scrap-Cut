@@ -238,7 +238,7 @@ fn main() {
                                     // Step through cut
                                     while current_pos != cut.end {
                                         // If current position makes smaller cut save it
-                                        if Vec2::distance(Vec2 { x: x_end, y: current_pos.y }, current_pos) < Vec2::distance(Vec2 { x: x_end, y: closest_point.y }, closest_end) {
+                                        if Vec2::distance(&Vec2 { x: x_end, y: current_pos.y }, current_pos) < Vec2::distance(&Vec2 { x: x_end, y: closest_point.y }, closest_end) {
                                             closest_end.x = current_pos.x;
                                             closest_end.y = current_pos.y;
                                         }
@@ -255,7 +255,7 @@ fn main() {
                                     };
 
                                     while current_pos != cut.end {
-                                        if Vec2::distance(Vec2 { x: x_end, y: current_pos.y }, current_pos) < Vec2::distance(Vec2 { x: x_end, y: closest_point.y }, closest_end) {
+                                        if Vec2::distance(&Vec2 { x: x_end, y: current_pos.y }, current_pos) < Vec2::distance(&Vec2 { x: x_end, y: closest_point.y }, closest_end) {
                                             closest_end.x = current_pos.x;
                                             closest_end.y = current_pos.y;
                                         }
@@ -297,7 +297,7 @@ fn main() {
                                     // Step through cut
                                     while current_pos != cut.end {
                                         // If current position makes smaller cut save it
-                                        if Vec2::distance(Vec2 { x: current_pos.x, y: y_end }, current_pos) < Vec2::distance(Vec2 { x: closest_point.x, y: y_end }, closest_end) {
+                                        if Vec2::distance(&Vec2 { x: current_pos.x, y: y_end }, current_pos) < Vec2::distance(&Vec2 { x: closest_point.x, y: y_end }, closest_end) {
                                             closest_end.x = current_pos.x;
                                             closest_end.y = current_pos.y;
                                         }
@@ -314,7 +314,7 @@ fn main() {
                                     };
 
                                     while current_pos != cut.end {
-                                        if Vec2::distance(Vec2 { x: current_pos.x, y: y_end }, current_pos) < Vec2::distance(Vec2 { x: closest_point.x, y: y_end }, closest_end) {
+                                        if Vec2::distance(&Vec2 { x: current_pos.x, y: y_end }, current_pos) < Vec2::distance(&Vec2 { x: closest_point.x, y: y_end }, closest_end) {
                                             closest_end.x = current_pos.x;
                                             closest_end.y = current_pos.y;
                                         }
@@ -366,10 +366,10 @@ fn main() {
     for cut in cuts
     {
         lines.push(format!("G00 X{:.3} Y{:.3}", cut.start.x, cut.start.y));
-        lines.push("M64");
+        lines.push("M64".to_string());
         lines.push(format!("G01 X{:.3} Y{:.3} F100.00"));
-        lines.push("M65");
+        lines.push("M65".to_string());
     }
-    lines.push("G00 X0.000 Y0.000");
+    lines.push("G00 X0.000 Y0.000".to_string());
     fs::write(filename, lines.join("\n"));
 }
