@@ -28,14 +28,14 @@ impl LinearCut {
         }
     }
 
-    fn capture(start: Vec2, instruction: &str) -> LinearCut {
+    fn capture(start: &Vec2, instruction: &str) -> LinearCut {
         let captures = Self::linear_regex.captures(instruction).unwrap();
         let end = Vec2 {
             x: captures.get(1).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
             y: captures.get(2).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
         };
 
-        Self::new(start, end)
+        Self::new(Vec2 { start.x, start. y }, end)
     }
 }
 
@@ -51,7 +51,7 @@ impl CurveCut {
         }
     }
 
-    fn capture(start: Vec2, instruction: &str, clockwise: bool) -> CurveCut {
+    fn capture(start: &Vec2, instruction: &str, clockwise: bool) -> CurveCut {
         let captures = Self::curve_regex.captures(instruction).unwrap();
         let end = Vec2 {
             x: captures.get(1).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
@@ -62,6 +62,6 @@ impl CurveCut {
             y: captures.get(4).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
         };
 
-        Self::new(start, end, center, clockwise)
+        Self::new(Vec { start.x, start.y }, end, center, clockwise)
     }
 }

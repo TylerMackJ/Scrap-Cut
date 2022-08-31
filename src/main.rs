@@ -15,21 +15,24 @@ use regex::Regex;
 fn main() {
     // Create Grid
     let mut grid: Grid<Square> = Grid::new(48, 96, 2, Square::Free);
-    let mut shape_lines: Vec<Vec<String>> = Vec::new();
 
-    // Place shapes into grid
+    // Open GCode
     let filename = "./gcode.gm";
     let file = File::open(filename).unwrap();
     let file_buf = BufReader::new(file);
-    // Loop over gcode
+
+    // Track head status
     let mut cutting = false;
     let mut head = Vec2 {
         x: 0.0,
         y: 0.0,
     };
+
+    // Track the current shape and related cuts
     let mut current_shape: usize = 0;
-    let linear_regex = Regex::new(r"X(\d+.\d+)\sY(\d+.\d+)").unwrap();
-    let curve_regex = Regex::new(r"X(\d+.\d+)\sY(\d+.\d+)\sI(\d+.\d+)\sJ(\d+.\d+)").unwrap();
+    let mut shape_cuts: Vec<Vec<Cut>> = Vec::new();
+
+    // Place shapes into grid
     for line in file_buf.lines().map(|line| line.unwrap()) {
         // Check for enable cutting instruction
         if line.starts_with("M64") {
@@ -41,64 +44,52 @@ fn main() {
         }
         // Check for linear movement instructions
         if line.starts_with("G00") || line.starts_with("G01") {
-            // Capture X and Y
-            let captures = linear_regex.captures(&line).unwrap();
-            let end_pos = Vec2 {
-                x: captures.get(1).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
-                y: captures.get(2).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
-            };
+            // Capture cut
+            cut: LinearCut = LinearCut::capture(head, line[..]);
 
             if cutting {
-                while head != end_pos {
-                    head.move_towards(end_pos, 0.5);
+                // Cut until we reach the end
+                while head != cut.end {
+                    head.move_towards(cut.end, 0.5);
                     if let Some(mut_ref) = grid.sheet_get_mut(head.x, head.y) {
                         *mut_ref = Square::Taken(current_shape);
                     }
                 }
             } else {
                 // If we are not cutting then we can jump to final position
-                head = end_pos;
+                head = cut.end;
             }
+
+            // Save cut for later
+            shape_cuts.get_mut(current_shape).unwrap().push(cut);
+
         } else if line.starts_with("G02") || line.starts_with("G03") { // Check for angular movement instructions
-            // Capture X, Y, I, and J
-            let captures = curve_regex.captures(&line).unwrap();
-            let end_pos = Vec2 {
-                x: captures.get(1).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
-                y: captures.get(2).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
-            };
+            // Capture cut
+            cut: CurveCut = CurveCut::capture(head, line[..], line.starts_with("G02"));
 
             if cutting {
-                // Get the center point of the arc
-                let center_point = Vec2 {
-                    x: captures.get(3).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
-                    y: captures.get(4).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
-                };
-
-                // G02 = clockwise, G03 = counterclockwise
-                let clockwise = line.starts_with("G02");
-
-                while head != end_pos {
-                    head.curve_towards(end_pos, center_point, 0.5, clockwise);
+                // Move along arc and cut
+                while head != cut.end {
+                    head.curve_towards(cut.end, cut.center, 0.5, cut.clockwise);
                     if let Some(mut_ref) = grid.sheet_get_mut(head.x, head.y) {
                         *mut_ref = Square::Taken(current_shape);
                     }
                 }
             } else {
                 // If we are not cutting then we can jump to final position
-                head = end_pos;
+                head = cut.end;
                 // This case should not occur, non cutting lines should be linear
                 panic!("Non linear movement while not cutting found!");
             }
+
+            // Save cut for later
+            shape_cuts.get_mut(current_shape).unwrap().push(cut);
         }
         
         // Check for disable cutting instruction
         if line.starts_with("M65") {
             cutting = false;
             current_shape += 1;
-        }
-
-        if cutting {
-            shape_lines.get_mut(current_shape).unwrap().push(line);
         }
     }
     
@@ -125,7 +116,7 @@ fn main() {
     }
 
     // Find all the cuts
-    let mut cuts: Vec<Line2D> = Vec::new();
+    let mut cuts: Vec<Cut> = Vec::new();
     for x in 0..grid.width {
         for y in 0..grid.height {
             // If Square::Scrap is next to Square::Good and all by itself change to Square::Good
