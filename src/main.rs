@@ -8,7 +8,7 @@ use crate::square::*;
 use crate::vec2::*;
 use crate::cut::*;
 
-use std::fs::{Self, File};
+use std::fs::{self, File};
 use std::io::{BufReader, BufRead};
 
 fn main() {
@@ -179,7 +179,7 @@ fn main() {
                                 // Step through cut
                                 while current_pos != cut.end {
                                     // If current position makes smaller cut save it
-                                    if Vec2::distance(start, current_pos) < Vec2::distance(start, closest_end) {
+                                    if Vec2::distance(&start, &current_pos) < Vec2::distance(&start, &closest_end) {
                                         closest_end.x = current_pos.x;
                                         closest_end.y = current_pos.y;
                                     }
@@ -196,7 +196,7 @@ fn main() {
                                 };
 
                                 while current_pos != cut.end {
-                                    if Vec2::distance(start, current_pos) < Vec2::distance(start, closest_end) {
+                                    if Vec2::distance(&start, &current_pos) < Vec2::distance(&start, &closest_end) {
                                         closest_end.x = current_pos.x;
                                         closest_end.y = current_pos.y;
                                     }
@@ -207,7 +207,7 @@ fn main() {
                         }
                     }
                     // Save the smallest found cut
-                    cuts.push(LinearCut::new(start, closest_end));
+                    cuts.push(LinearCut::new(&start, &closest_end));
                 }
             }
 
@@ -216,13 +216,13 @@ fn main() {
             if x == 0 || x == grid.width - 1 {
                 if grid.get(x, y).is_taken() && grid.get(x, y + 1) == Square::Good {
                     // Cut where the shape belonging to the current square is closest to the wall
-                    if let Square::Taken(s) = grid.get(x, y) {    
+                    if let Some(Square::Taken(s)) = grid.get(x, y) {    
                         let closest_point = Vec2 {
                             x: 0.0,
                             y: 0.0,
                         };
                         // Find out if cut should be left or right
-                        let x_end = if x == 0 { 0 } else { grid.width * grid.resolution };
+                        let x_end = if x == 0 { 0.0 } else { (grid.width * grid.resolution) as f32 };
                         
                         // Loop over all cuts related the shape
                         for cut_type in shape_cuts.get_mut(s).unwrap() {
@@ -238,9 +238,9 @@ fn main() {
                                     // Step through cut
                                     while current_pos != cut.end {
                                         // If current position makes smaller cut save it
-                                        if Vec2::distance(&Vec2 { x: x_end, y: current_pos.y }, current_pos) < Vec2::distance(&Vec2 { x: x_end, y: closest_point.y }, closest_end) {
-                                            closest_end.x = current_pos.x;
-                                            closest_end.y = current_pos.y;
+                                        if Vec2::distance(&Vec2 { x: x_end, y: current_pos.y }, &current_pos) < Vec2::distance(&Vec2 { x: x_end, y: closest_point.y }, &closest_point) {
+                                            closest_point.x = current_pos.x;
+                                            closest_point.y = current_pos.y;
                                         }
                                 
                                         // Continue cut
@@ -255,9 +255,9 @@ fn main() {
                                     };
 
                                     while current_pos != cut.end {
-                                        if Vec2::distance(&Vec2 { x: x_end, y: current_pos.y }, current_pos) < Vec2::distance(&Vec2 { x: x_end, y: closest_point.y }, closest_end) {
-                                            closest_end.x = current_pos.x;
-                                            closest_end.y = current_pos.y;
+                                        if Vec2::distance(&Vec2 { x: x_end, y: current_pos.y }, &current_pos) < Vec2::distance(&Vec2 { x: x_end, y: closest_point.y }, &closest_point) {
+                                            closest_point.x = current_pos.x;
+                                            closest_point.y = current_pos.y;
                                         }
 
                                         current_pos.curve_towards(cut.end, cut.center, 0.1, cut.clockwise)
@@ -266,7 +266,7 @@ fn main() {
                             }
                         }
                         // Save the smallest found cut
-                        cuts.push(LinearCut::new(start, closest_end));
+                        cuts.push(LinearCut::new(start, closest_point));
                     }
                 }
             }
@@ -275,13 +275,13 @@ fn main() {
             if y == 0 || y == grid.height - 1 {
                 if grid.get(x, y).is_taken() && grid.get(x + 1, y) == Square::Good {
                     // Cut where the shape belonging to the current square is closest to the wall
-                    if let Square::Taken(s) = grid.get(x, y) {    
+                    if let Some(Square::Taken(s)) = grid.get(x, y) {    
                         let closest_point = Vec2 {
                             x: 0.0,
                             y: 0.0,
                         };
                         // Find out if cut should be up or down
-                        let y_end = if y == 0 { 0 } else { grid.height * grid.resolution };
+                        let y_end = if y == 0 { 0.0 } else { (grid.height * grid.resolution) as f32 };
                         
                         // Loop over all cuts related the shape
                         for cut_type in shape_cuts.get_mut(s).unwrap() {
@@ -297,9 +297,9 @@ fn main() {
                                     // Step through cut
                                     while current_pos != cut.end {
                                         // If current position makes smaller cut save it
-                                        if Vec2::distance(&Vec2 { x: current_pos.x, y: y_end }, current_pos) < Vec2::distance(&Vec2 { x: closest_point.x, y: y_end }, closest_end) {
-                                            closest_end.x = current_pos.x;
-                                            closest_end.y = current_pos.y;
+                                        if Vec2::distance(&Vec2 { x: current_pos.x, y: y_end }, &current_pos) < Vec2::distance(&Vec2 { x: closest_point.x, y: y_end }, &closest_point) {
+                                            closest_point.x = current_pos.x;
+                                            closest_point.y = current_pos.y;
                                         }
                                 
                                         // Continue cut
@@ -314,9 +314,9 @@ fn main() {
                                     };
 
                                     while current_pos != cut.end {
-                                        if Vec2::distance(&Vec2 { x: current_pos.x, y: y_end }, current_pos) < Vec2::distance(&Vec2 { x: closest_point.x, y: y_end }, closest_end) {
-                                            closest_end.x = current_pos.x;
-                                            closest_end.y = current_pos.y;
+                                        if Vec2::distance(&Vec2 { x: current_pos.x, y: y_end }, &current_pos) < Vec2::distance(&Vec2 { x: closest_point.x, y: y_end }, &closest_point) {
+                                            closest_point.x = current_pos.x;
+                                            closest_point.y = current_pos.y;
                                         }
 
                                         current_pos.curve_towards(cut.end, cut.center, 0.1, cut.clockwise)
@@ -325,7 +325,7 @@ fn main() {
                             }
                         }
                         // Save the smallest found cut
-                        cuts.push(LinearCut::new(start, closest_end));
+                        cuts.push(LinearCut::new(start, closest_point));
                     }
                 }
             }
@@ -367,7 +367,7 @@ fn main() {
     {
         lines.push(format!("G00 X{:.3} Y{:.3}", cut.start.x, cut.start.y));
         lines.push("M64".to_string());
-        lines.push(format!("G01 X{:.3} Y{:.3} F100.00"));
+        lines.push(format!("G01 X{:.3} Y{:.3} F100.00"), cut.end.x, cut.end.y);
         lines.push("M65".to_string());
     }
     lines.push("G00 X0.000 Y0.000".to_string());
