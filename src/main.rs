@@ -14,9 +14,8 @@ use std::io::{BufReader, BufRead};
 fn main() {
     // Create Grid
     let mut grid: Grid<Square> = Grid::new(48, 96, 2, Square::Free);
-
-    // Place shapes onto grid
     let filename = "./gcode.gm";
+
     let shape_cuts = find_taken(&mut grid, &filename[..]);
     
     find_good_and_scrap(&mut grid);
