@@ -29,7 +29,7 @@ impl LinearCut {
     }
 
     fn capture(start: Vec2, instruction: &str) -> LinearCut {
-        let captures = linear_regex.captures(&line).unwrap();
+        let captures = Self::linear_regex.captures(instruction).unwrap();
         let end = Vec2 {
             x: captures.get(1).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
             y: captures.get(2).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
@@ -52,7 +52,7 @@ impl CurveCut {
     }
 
     fn capture(start: Vec2, instruction: &str, clockwise: bool) -> CurveCut {
-        let captures = curve_regex.captures(&line).unwrap();
+        let captures = Self::curve_regex.captures(instruction).unwrap();
         let end = Vec2 {
             x: captures.get(1).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
             y: captures.get(2).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
