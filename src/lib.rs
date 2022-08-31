@@ -1,12 +1,15 @@
 pub mod grid;
 pub mod square;
 pub mod vec2;
+pub mod cut;
 
 #[cfg(test)]
 mod tests {
     use crate::grid::*;
     use crate::square::*;
     use crate::vec2::*;
+    use crate::cut::*;
+    
     use std::f32::consts::PI;
 
     #[test]
@@ -199,10 +202,10 @@ mod tests {
         let captured = LinearCut::capture(start, "G00 X4.567 Y5.678 F100.000");
         let created = LinearCut::new(start, Vec2 { x: 4.567, y: 5.678 });
 
-        assert_eq(captured.start.x, created.start.x);
-        assert_eq(captured.start.y, created.start.y);
-        assert_eq(captured.end.x, created.end.x);
-        assert_eq(captured.end.y, created.end.y);
+        assert_eq!(captured.start.x, created.start.x);
+        assert_eq!(captured.start.y, created.start.y);
+        assert_eq!(captured.end.x, created.end.x);
+        assert_eq!(captured.end.y, created.end.y);
 
         let start = Vec2 {
             x: 1.23,
@@ -212,12 +215,12 @@ mod tests {
         let captured = CurveCut::capture(start, "G03 X4.567 Y5.678 I1.234 J2.345 F100.000", false);
         let created = CurveCut::new(start, Vec2 { x: 4.567, y: 5.678 }, Vec2 { x: 1.234, y: 2.345 }, false);
 
-        assert_eq(captured.start.x, created.start.x);
-        assert_eq(captured.start.y, created.start.y);
-        assert_eq(captured.end.x, created.end.x);
-        assert_eq(captured.end.y, created.end.y);
-        assert_eq(captured.center.x, created.center.x);
-        assert_eq(captured.center.y, created.center.y);
-        assert_eq(captured.clockwise, created.clockwise);
+        assert_eq!(captured.start.x, created.start.x);
+        assert_eq!(captured.start.y, created.start.y);
+        assert_eq!(captured.end.x, created.end.x);
+        assert_eq!(captured.end.y, created.end.y);
+        assert_eq!(captured.center.x, created.center.x);
+        assert_eq!(captured.center.y, created.center.y);
+        assert_eq!(captured.clockwise, created.clockwise);
     }
 }
