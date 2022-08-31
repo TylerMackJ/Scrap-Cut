@@ -284,7 +284,7 @@ fn main() {
                         let y_end = if y == 0 { 0.0 } else { (grid.height * grid.resolution) as f32 };
                         
                         // Loop over all cuts related the shape
-                        for cut_type in shape_cuts.get_mut(s).unwrap() {
+                        for cut_type in shape_cuts.get_mut(*s).unwrap() {
                             // Determine type of cut
                             match cut_type {
                                 Cut::Linear(cut) => {
