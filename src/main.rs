@@ -60,7 +60,7 @@ fn main() {
             }
 
             // Save cut for later
-            shape_cuts.get_mut(current_shape).unwrap().push(cut);
+            shape_cuts.get_mut(current_shape).unwrap().push(Cut::Linear(cut));
 
         } else if line.starts_with("G02") || line.starts_with("G03") { // Check for angular movement instructions
             // Capture cut
@@ -82,7 +82,7 @@ fn main() {
             }
 
             // Save cut for later
-            shape_cuts.get_mut(current_shape).unwrap().push(cut);
+            shape_cuts.get_mut(current_shape).unwrap().push(Cut::Curve(cut));
         }
         
         // Check for disable cutting instruction

@@ -35,14 +35,14 @@ impl LinearCut {
             y: captures.get(2).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
         };
 
-        Self::new(start.copy(), end)
+        Self::new(Vec2 { x: start.x, y: start.y }, end)
     }
 }
 
 impl CurveCut {
     const curve_regex: Regex = Regex::new(r"X(\d+.\d+)\sY(\d+.\d+)\sI(\d+.\d+)\sJ(\d+.\d+)").unwrap();
 
-    fn new(start: Vec2, end: Vec2, center: Vec2, clockwise: bool) -> CurveCut {
+    pub fn new(start: Vec2, end: Vec2, center: Vec2, clockwise: bool) -> CurveCut {
         CurveCut {
             start,
             end,
@@ -51,7 +51,7 @@ impl CurveCut {
         }
     }
 
-    fn capture(start: &Vec2, instruction: &str, clockwise: bool) -> CurveCut {
+    pub fn capture(start: &Vec2, instruction: &str, clockwise: bool) -> CurveCut {
         let captures = Self::curve_regex.captures(instruction).unwrap();
         let end = Vec2 {
             x: captures.get(1).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
@@ -62,6 +62,6 @@ impl CurveCut {
             y: captures.get(4).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
         };
 
-        Self::new(start.copy(), end, center, clockwise)
+        Self::new(Vec2 { x: start.x, y: start.y }, end, center, clockwise)
     }
 }
