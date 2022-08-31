@@ -49,6 +49,7 @@ mod tests {
         assert_ne!(grid.get(5, 5), Some(&false));
     }
 
+    /*
     #[test]
     fn sheet_boundaries() {
         let grid: Grid<bool> = Grid::new(10, 10, 2, false);
@@ -63,6 +64,7 @@ mod tests {
         assert_ne!(grid.sheet_get(10.0, 10.0), Some(&true));
         assert_ne!(grid.sheet_get(10.0, 10.0), Some(&false));
     }
+    */
 
     #[test]
     fn grid_mut() {
