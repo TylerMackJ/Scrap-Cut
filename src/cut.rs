@@ -21,21 +21,21 @@ pub enum Cut {
 impl LinearCut {
     const linear_regex: Regex = Regex::new(r"X(\d+.\d+)\sY(\d+.\d+)").unwrap();
 
-    fn new(start: Vec2, end: Vec2) -> LinearCut {
+    pub fn new(start: Vec2, end: Vec2) -> LinearCut {
         LinearCut {
             start,
             end,
         }
     }
 
-    fn capture(start: &Vec2, instruction: &str) -> LinearCut {
+    pub fn capture(start: &Vec2, instruction: &str) -> LinearCut {
         let captures = Self::linear_regex.captures(instruction).unwrap();
         let end = Vec2 {
             x: captures.get(1).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
             y: captures.get(2).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
         };
 
-        Self::new(Vec2 { start.x, start. y }, end)
+        Self::new(start.copy(), end)
     }
 }
 
@@ -62,6 +62,6 @@ impl CurveCut {
             y: captures.get(4).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
         };
 
-        Self::new(Vec { start.x, start.y }, end, center, clockwise)
+        Self::new(start.copy(), end, center, clockwise)
     }
 }

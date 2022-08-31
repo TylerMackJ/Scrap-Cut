@@ -10,7 +10,6 @@ use crate::cut::*;
 
 use std::fs::File;
 use std::io::{BufReader, BufRead};
-use regex::Regex;
 
 fn main() {
     // Create Grid
@@ -37,7 +36,7 @@ fn main() {
         // Check for enable cutting instruction
         if line.starts_with("M64") {
             cutting = true;
-            shape_lines.push(Vec::new());
+            shape_cuts.push(Vec::new());
             if let Some(mut_ref) = grid.sheet_get_mut(head.x, head.y) {
                 *mut_ref = Square::Taken(current_shape);
             }
@@ -45,7 +44,7 @@ fn main() {
         // Check for linear movement instructions
         if line.starts_with("G00") || line.starts_with("G01") {
             // Capture cut
-            cut: LinearCut = LinearCut::capture(head, line[..]);
+            let cut: LinearCut = LinearCut::capture(&head, &line[..]);
 
             if cutting {
                 // Cut until we reach the end
@@ -65,7 +64,7 @@ fn main() {
 
         } else if line.starts_with("G02") || line.starts_with("G03") { // Check for angular movement instructions
             // Capture cut
-            cut: CurveCut = CurveCut::capture(head, line[..], line.starts_with("G02"));
+            let cut: CurveCut = CurveCut::capture(&head, &line[..], line.starts_with("G02"));
 
             if cutting {
                 // Move along arc and cut
