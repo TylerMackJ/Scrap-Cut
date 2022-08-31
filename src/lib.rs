@@ -147,4 +147,45 @@ mod tests {
         assert!(vector.x > 0.9 && vector.x < 1.1, "{:?}", vector);
         assert!(vector.y > -0.1 && vector.y < 0.1, "{:?}", vector);
     }
+
+    #[test]
+    fn move_until_end() {
+        let mut vector = Vec2 {
+            x: 0.0,
+            y: 0.0,
+        };
+
+        let linear_end = Vec2 {
+            x: 1.0,
+            y: 0.0,
+        };
+
+        let curve_end = Vec2 {
+            x: -1.0,
+            y: 0.0,
+        };
+
+        let center = Vec2 {
+            x: 0.0,
+            y: 0.0,
+        };
+
+        for i in 0..10 {
+            if vector == linear_end { break; }
+            vector.move_towards(linear_end, 0.15);
+        }
+        assert_eq!(vector, linear_end);
+
+        for i in 0..25 {
+            if vector == curve_end { break; }
+            vector.curve_towards(curve_end, center, 0.15, false);
+        }
+        assert_eq!(vector, curve_end);
+
+        for i in 0..25 {
+            if vector == linear_end { break; }
+            vector.curve_towards(linear_end, center, 0.15, true);
+        }
+        assert_eq!(vector, linear_end);
+    }
 }
