@@ -1,3 +1,5 @@
+use crate::vec2::*;
+
 pub struct LinearCut {
     pub start: Vec2,
     pub end: Vec2,
