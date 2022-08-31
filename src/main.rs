@@ -140,14 +140,10 @@ fn find_good_and_scrap(grid: &mut Grid<Square>) {
             }
         }
     }
-}
 
-fn find_cuts(grid: &Grid<Square>, shape_cuts: Vec<Vec<Cut>>) -> Vec<LinearCut> {
-    // Find all the cuts
-    let mut cuts: Vec<LinearCut> = Vec::new();
+    // If Square::Scrap is next to Square::Good and all by itself change to Square::Good
     for x in 0..grid.width {
         for y in 0..grid.height {
-            // If Square::Scrap is next to Square::Good and all by itself change to Square::Good
             if grid.get(x, y) == Square::Scrap {
                 let mut found_good = false;
                 let mut found_scrap = false;
@@ -163,7 +159,15 @@ fn find_cuts(grid: &Grid<Square>, shape_cuts: Vec<Vec<Cut>>) -> Vec<LinearCut> {
                     }
                 }
             }
+        }
+    }
+}
 
+fn find_cuts(grid: &Grid<Square>, shape_cuts: Vec<Vec<Cut>>) -> Vec<LinearCut> {
+    // Find all the cuts
+    let mut cuts: Vec<LinearCut> = Vec::new();
+    for x in 0..grid.width {
+        for y in 0..grid.height {
             // Find Square::Good-Square::Scrap cuts
             if grid.get(x, y) == Square::Scrap && (grid.get(x + 1, y) == Square::Good || grid.get(x - 1, y) == Square::Good || grid.get(x, y + 1) == Square::Good || grid.get(x, y - 1) == Square::Good) {
                 // Find each shape that has a Square::Taken touching the current square
@@ -195,7 +199,7 @@ fn find_cuts(grid: &Grid<Square>, shape_cuts: Vec<Vec<Cut>>) -> Vec<LinearCut> {
                     };
 
                     // Loop over all cuts related the shape
-                    for cut_type in shape_cuts.get_mut(*shape).unwrap() {
+                    for cut_type in shape_cuts.get(*shape).unwrap() {
                         // Determine type of cut
                         match cut_type {
                             Cut::Linear(cut) => {
@@ -254,7 +258,7 @@ fn find_cuts(grid: &Grid<Square>, shape_cuts: Vec<Vec<Cut>>) -> Vec<LinearCut> {
                         let x_end = if x == 0 { 0.0 } else { (grid.width * grid.resolution) as f32 };
                         
                         // Loop over all cuts related the shape
-                        for cut_type in shape_cuts.get_mut(*s).unwrap() {
+                        for cut_type in shape_cuts.get(*s).unwrap() {
                             // Determine type of cut
                             match cut_type {
                                 Cut::Linear(cut) => {
@@ -313,7 +317,7 @@ fn find_cuts(grid: &Grid<Square>, shape_cuts: Vec<Vec<Cut>>) -> Vec<LinearCut> {
                         let y_end = if y == 0 { 0.0 } else { (grid.height * grid.resolution) as f32 };
                         
                         // Loop over all cuts related the shape
-                        for cut_type in shape_cuts.get_mut(*s).unwrap() {
+                        for cut_type in shape_cuts.get(*s).unwrap() {
                             // Determine type of cut
                             match cut_type {
                                 Cut::Linear(cut) => {
