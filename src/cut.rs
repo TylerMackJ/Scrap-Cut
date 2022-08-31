@@ -27,7 +27,7 @@ impl LinearCut {
     }
 
     pub fn capture(start: &Vec2, instruction: &str) -> LinearCut {
-        static linear_regex: Regex = Regex::new(r"X(\d+.\d+)\sY(\d+.\d+)").unwrap();
+        let linear_regex: Regex = Regex::new(r"X(\d+.\d+)\sY(\d+.\d+)").unwrap();
 
         let captures = linear_regex.captures(instruction).unwrap();
         let end = Vec2 {
@@ -50,7 +50,7 @@ impl CurveCut {
     }
 
     pub fn capture(start: &Vec2, instruction: &str, clockwise: bool) -> CurveCut {
-        static curve_regex: Regex = Regex::new(r"X(\d+.\d+)\sY(\d+.\d+)\sI(\d+.\d+)\sJ(\d+.\d+)").unwrap();
+        let curve_regex: Regex = Regex::new(r"X(\d+.\d+)\sY(\d+.\d+)\sI(\d+.\d+)\sJ(\d+.\d+)").unwrap();
 
         let captures = curve_regex.captures(instruction).unwrap();
         let end = Vec2 {
