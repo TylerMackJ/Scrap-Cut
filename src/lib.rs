@@ -204,7 +204,7 @@ mod tests {
         assert!(d > 1.4 && d < 1.5, "{:?}", d);
 
         let d = Vec2::distance(&Vec2 { x: -1.0, y: -1.0 }, &Vec2 { x: 1.0, y: 1.0 });
-        assert!(d > 1.9 && d < 2.1, "{:?}", d);
+        assert!(d > 2.8 && d < 2.9, "{:?}", d);
     }
 
     #[test]
