@@ -19,8 +19,6 @@ pub enum Cut {
 }
 
 impl LinearCut {
-    let linear_regex = Regex::new(r"X(\d+.\d+)\sY(\d+.\d+)").unwrap();
-
     pub fn new(start: Vec2, end: Vec2) -> LinearCut {
         LinearCut {
             start,
@@ -29,6 +27,8 @@ impl LinearCut {
     }
 
     pub fn capture(start: &Vec2, instruction: &str) -> LinearCut {
+        static linear_regex: Regex = Regex::new(r"X(\d+.\d+)\sY(\d+.\d+)").unwrap();
+
         let captures = Self::linear_regex.captures(instruction).unwrap();
         let end = Vec2 {
             x: captures.get(1).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
@@ -40,8 +40,6 @@ impl LinearCut {
 }
 
 impl CurveCut {
-    let curve_regex = Regex::new(r"X(\d+.\d+)\sY(\d+.\d+)\sI(\d+.\d+)\sJ(\d+.\d+)").unwrap();
-
     pub fn new(start: Vec2, end: Vec2, center: Vec2, clockwise: bool) -> CurveCut {
         CurveCut {
             start,
@@ -52,6 +50,8 @@ impl CurveCut {
     }
 
     pub fn capture(start: &Vec2, instruction: &str, clockwise: bool) -> CurveCut {
+        static curve_regex = Regex::new(r"X(\d+.\d+)\sY(\d+.\d+)\sI(\d+.\d+)\sJ(\d+.\d+)").unwrap();
+
         let captures = Self::curve_regex.captures(instruction).unwrap();
         let end = Vec2 {
             x: captures.get(1).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
