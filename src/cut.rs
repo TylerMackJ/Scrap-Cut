@@ -19,7 +19,7 @@ pub enum Cut {
 }
 
 impl LinearCut {
-    const linear_regex: Regex = Regex::new(r"X(\d+.\d+)\sY(\d+.\d+)").unwrap();
+    let linear_regex = Regex::new(r"X(\d+.\d+)\sY(\d+.\d+)").unwrap();
 
     pub fn new(start: Vec2, end: Vec2) -> LinearCut {
         LinearCut {
@@ -40,7 +40,7 @@ impl LinearCut {
 }
 
 impl CurveCut {
-    const curve_regex: Regex = Regex::new(r"X(\d+.\d+)\sY(\d+.\d+)\sI(\d+.\d+)\sJ(\d+.\d+)").unwrap();
+    let curve_regex = Regex::new(r"X(\d+.\d+)\sY(\d+.\d+)\sI(\d+.\d+)\sJ(\d+.\d+)").unwrap();
 
     pub fn new(start: Vec2, end: Vec2, center: Vec2, clockwise: bool) -> CurveCut {
         CurveCut {
