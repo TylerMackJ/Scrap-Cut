@@ -30,7 +30,7 @@ impl Vec2 {
 
     pub fn curve_towards(&mut self, to: Vec2, center_point: Vec2, step: f32, clockwise: bool) {
         // Radians
-        let radius = (f32::powf(center_point.x - self.x, 2.0) + f32::powf(center_point.y - self.y, 2.0)).sqrt();
+        let radius = Self::distance(self, center_point);
         // Consider angles positive
         let mut central_angle: f32 = (((self.x - center_point.x) * (to.x - center_point.x) + (self.y) * (center_point.y))/(radius * radius)).acos();
         central_angle = if clockwise { PI - central_angle } else { central_angle };
