@@ -166,7 +166,7 @@ fn main() {
                     };
 
                     // Loop over all cuts related the shape
-                    for cut_type in shape_cuts.get_mut(shape).unwrap() {
+                    for cut_type in shape_cuts.get_mut(*shape).unwrap() {
                         // Determine type of cut
                         match cut_type {
                             Cut::Linear(cut) => {
@@ -207,7 +207,7 @@ fn main() {
                         }
                     }
                     // Save the smallest found cut
-                    cuts.push(LinearCut::new(&start, &closest_end));
+                    cuts.push(LinearCut::new(start, closest_end));
                 }
             }
 
@@ -225,7 +225,7 @@ fn main() {
                         let x_end = if x == 0 { 0.0 } else { (grid.width * grid.resolution) as f32 };
                         
                         // Loop over all cuts related the shape
-                        for cut_type in shape_cuts.get_mut(s).unwrap() {
+                        for cut_type in shape_cuts.get_mut(*s).unwrap() {
                             // Determine type of cut
                             match cut_type {
                                 Cut::Linear(cut) => {
@@ -266,7 +266,7 @@ fn main() {
                             }
                         }
                         // Save the smallest found cut
-                        cuts.push(LinearCut::new(start, closest_point));
+                        cuts.push(LinearCut::new(closest_point, Vec2 { x: x_end, y: closest_point.y }));
                     }
                 }
             }
@@ -325,7 +325,7 @@ fn main() {
                             }
                         }
                         // Save the smallest found cut
-                        cuts.push(LinearCut::new(start, closest_point));
+                        cuts.push(LinearCut::new(closest_point, Vec2 { x: closest_point.x, y: y_end }));
                     }
                 }
             }
@@ -367,7 +367,7 @@ fn main() {
     {
         lines.push(format!("G00 X{:.3} Y{:.3}", cut.start.x, cut.start.y));
         lines.push("M64".to_string());
-        lines.push(format!("G01 X{:.3} Y{:.3} F100.00"), cut.end.x, cut.end.y);
+        lines.push(format!("G01 X{:.3} Y{:.3} F100.00", cut.end.x, cut.end.y));
         lines.push("M65".to_string());
     }
     lines.push("G00 X0.000 Y0.000".to_string());
