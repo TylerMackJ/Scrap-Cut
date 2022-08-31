@@ -30,7 +30,7 @@ fn main() {
         x: 0.0,
         y: 0.0,
     };
-    let mut current_shape = 0;
+    let mut current_shape: usize = 0;
     let linear_regex = Regex::new(r"X(\d+.\d+)\sY(\d+.\d+)").unwrap();
     let curve_regex = Regex::new(r"X(\d+.\d+)\sY(\d+.\d+)\sI(\d+.\d+)\sJ(\d+.\d+)").unwrap();
     for line in file_buf.lines().map(|line| line.unwrap()) {
