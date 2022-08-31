@@ -29,7 +29,7 @@ impl LinearCut {
     pub fn capture(start: &Vec2, instruction: &str) -> LinearCut {
         static linear_regex: Regex = Regex::new(r"X(\d+.\d+)\sY(\d+.\d+)").unwrap();
 
-        let captures = Self::linear_regex.captures(instruction).unwrap();
+        let captures = linear_regex.captures(instruction).unwrap();
         let end = Vec2 {
             x: captures.get(1).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
             y: captures.get(2).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
@@ -50,9 +50,9 @@ impl CurveCut {
     }
 
     pub fn capture(start: &Vec2, instruction: &str, clockwise: bool) -> CurveCut {
-        static curve_regex = Regex::new(r"X(\d+.\d+)\sY(\d+.\d+)\sI(\d+.\d+)\sJ(\d+.\d+)").unwrap();
+        static curve_regex: Regex = Regex::new(r"X(\d+.\d+)\sY(\d+.\d+)\sI(\d+.\d+)\sJ(\d+.\d+)").unwrap();
 
-        let captures = Self::curve_regex.captures(instruction).unwrap();
+        let captures = curve_regex.captures(instruction).unwrap();
         let end = Vec2 {
             x: captures.get(1).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
             y: captures.get(2).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
