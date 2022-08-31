@@ -9,7 +9,7 @@ mod tests {
     use crate::square::*;
     use crate::vec2::*;
     use crate::cut::*;
-    
+
     use std::f32::consts::PI;
 
     #[test]
@@ -199,7 +199,7 @@ mod tests {
             y: 4.56,
         };
 
-        let captured = LinearCut::capture(start, "G00 X4.567 Y5.678 F100.000");
+        let captured = LinearCut::capture(&start, "G00 X4.567 Y5.678 F100.000");
         let created = LinearCut::new(start, Vec2 { x: 4.567, y: 5.678 });
 
         assert_eq!(captured.start.x, created.start.x);
@@ -212,7 +212,7 @@ mod tests {
             y: 4.56,
         };
 
-        let captured = CurveCut::capture(start, "G03 X4.567 Y5.678 I1.234 J2.345 F100.000", false);
+        let captured = CurveCut::capture(&start, "G03 X4.567 Y5.678 I1.234 J2.345 F100.000", false);
         let created = CurveCut::new(start, Vec2 { x: 4.567, y: 5.678 }, Vec2 { x: 1.234, y: 2.345 }, false);
 
         assert_eq!(captured.start.x, created.start.x);
