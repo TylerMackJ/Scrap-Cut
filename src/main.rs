@@ -1,19 +1,16 @@
 mod grid;
 mod square;
 mod vec2;
+mod cut;
 
 use crate::grid::*;
 use crate::square::*;
 use crate::vec2::*;
+use crate::cut::*;
 
 use std::fs::File;
 use std::io::{BufReader, BufRead};
 use regex::Regex;
-
-struct Line2D {
-    start: Vec2,
-    end: Vec2,
-}
 
 fn main() {
     // Create Grid
