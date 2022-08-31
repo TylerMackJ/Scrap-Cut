@@ -18,6 +18,7 @@ struct Line2D {
 fn main() {
     // Create Grid
     let mut grid: Grid<Square> = Grid::new(48, 96, 2, Square::Free);
+    let mut shape_lines: Vec<Vec<String>> = Vec::new();
 
     // Place shapes into grid
     let filename = "./gcode.gm";
@@ -36,6 +37,7 @@ fn main() {
         // Check for enable cutting instruction
         if line.starts_with("M64") {
             cutting = true;
+            shape_lines.push(Vec::new());
             if let Some(mut_ref) = grid.sheet_get_mut(head.x, head.y) {
                 *mut_ref = Square::Taken(current_shape);
             }
@@ -96,6 +98,10 @@ fn main() {
         if line.starts_with("M65") {
             cutting = false;
             current_shape += 1;
+        }
+
+        if cutting {
+            shape_lines.get_mut(current_shape).unwrap().push(line);
         }
     }
     
