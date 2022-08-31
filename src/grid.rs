@@ -4,7 +4,7 @@ pub struct Grid<T: Clone> {
     grid: Vec<T>,
     pub width: usize,
     pub height: usize,
-    resolution: usize,
+    pub resolution: usize,
 }
 
 impl<T: Clone> Index<(usize, usize)> for Grid<T> {
