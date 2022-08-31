@@ -13,6 +13,10 @@ impl PartialEq<Vec2> for Vec2 {
 }
 
 impl Vec2 {
+    pub fn distance(&v1: Vec2, &v2: Vec2) -> f32 {
+        ((v2.x - v1.x).pow(2) as f32 + (v2.y - v1.y).pow(2) as f32).sqrt()
+    }
+
     pub fn move_towards(&mut self, to: Vec2, step: f32) {
         let distance = (f32::powf(to.x - self.x, 2.0) + f32::powf(to.y - self.y, 2.0)).sqrt();
         let t = step / distance;

@@ -115,7 +115,7 @@ fn main() {
     }
 
     // Find all the cuts
-    let mut cuts: Vec<Cut> = Vec::new();
+    let mut cuts: Vec<LinearCut> = Vec::new();
     for x in 0..grid.width {
         for y in 0..grid.height {
             // If Square::Scrap is next to Square::Good and all by itself change to Square::Good
@@ -154,7 +154,60 @@ fn main() {
                 
                 // Make cut from middle of current square to the closest point of each shape
                 for shape in taken_shapes {
-                    todo!();
+                    // Get the middle of current square
+                    let start = Vec2 {
+                        x: (x * grid.resolution) as f32 + 0.5,
+                        y: (y * grid.resolution) as f32 + 0.5,
+                    }
+
+                    let closest_end = Vec2 {
+                        x: 0,
+                        y: 0,
+                    }
+
+                    // Loop over all cuts related the shape
+                    for cut_type in shape_cuts.get_mut(shape).unwrap() {
+                        // Determine type of cut
+                        match cut_type {
+                            Cut::Linear(cut) => {
+                                // Start at the beginning of the cut
+                                let current_pos = Vec2 {
+                                    x: cut.start.x,
+                                    y: cut.start.y,
+                                };
+
+                                // Step through cut
+                                while current_pos != cut.end {
+                                    // If current position makes smaller cut save it
+                                    if Vec2::distance(start, current_pos) < Vec2::distance(start, closest_end) {
+                                        closest_end.x = current_pos.x;
+                                        closest_end.y = current_pos.y;
+                                    }
+                            
+                                    // Continue cut
+                                    current_pos.move_towards(cut.end, 0.1);
+                                }
+                            },
+                            Cut::Curve(cut) => {
+                                // Same as above but curved
+                                let current_pos = Vec2 {
+                                    x: cut.start.x,
+                                    y: cut.start.y,
+                                };
+
+                                while current_pos != cut.end {
+                                    if Vec2::distance(start, current_pos) < Vec2::distance(start, closest_end) {
+                                        closest_end.x = current_pos.x;
+                                        closest_end.y = current_pos.y;
+                                    }
+
+                                    current_pos.curve_towards(cut.end, cut.center, 0.1, cut.clockwise)
+                                }
+                            }
+                        }
+                    }
+                    // Save the smallest found cut
+                    cuts.push(LinearCut::new(start, closest_end));
                 }
             }
 
@@ -163,7 +216,56 @@ fn main() {
             if x == 0 || x == grid.width - 1 {
                 if grid.get(x, y).is_taken() && grid.get(x, y + 1) == Square::Good {
                     // Cut where the shape belonging to the current square is closest to the wall
-                    todo!();
+                    // Loop over all cuts related the shape
+                    if let Square::Taken(s) = grid.get(x, y) {    
+                        let closest_point = Vec2 {
+                            x: 0,
+                            y: 0,
+                        }
+    
+                        todo!();
+                        
+                        for cut_type in shape_cuts.get_mut(s).unwrap() {
+                            // Determine type of cut
+                            match cut_type {
+                                Cut::Linear(cut) => {
+                                    // Start at the beginning of the cut
+                                    let current_pos = Vec2 {
+                                        x: cut.start.x,
+                                        y: cut.start.y,
+                                    };
+
+                                    // Step through cut
+                                    while current_pos != cut.end {
+                                        // If current position makes smaller cut save it
+                                        if Vec2::distance(start, current_pos) < Vec2::distance(start, closest_end) {
+                                            closest_end.x = current_pos.x;
+                                            closest_end.y = current_pos.y;
+                                        }
+                                
+                                        // Continue cut
+                                        current_pos.move_towards(cut.end, 0.1);
+                                    }
+                                },
+                                Cut::Curve(cut) => {
+                                    // Same as above but curved
+                                    let current_pos = Vec2 {
+                                        x: cut.start.x,
+                                        y: cut.start.y,
+                                    };
+
+                                    while current_pos != cut.end {
+                                        if Vec2::distance(start, current_pos) < Vec2::distance(start, closest_end) {
+                                            closest_end.x = current_pos.x;
+                                            closest_end.y = current_pos.y;
+                                        }
+
+                                        current_pos.curve_towards(cut.end, cut.center, 0.1, cut.clockwise)
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
 
