@@ -160,7 +160,7 @@ fn main() {
                         y: (y * grid.resolution) as f32 + 0.5,
                     };
 
-                    let closest_end = Vec2 {
+                    let mut closest_end = Vec2 {
                         x: 0.0,
                         y: 0.0,
                     };
@@ -171,7 +171,7 @@ fn main() {
                         match cut_type {
                             Cut::Linear(cut) => {
                                 // Start at the beginning of the cut
-                                let current_pos = Vec2 {
+                                let mut current_pos = Vec2 {
                                     x: cut.start.x,
                                     y: cut.start.y,
                                 };
@@ -190,7 +190,7 @@ fn main() {
                             },
                             Cut::Curve(cut) => {
                                 // Same as above but curved
-                                let current_pos = Vec2 {
+                                let mut current_pos = Vec2 {
                                     x: cut.start.x,
                                     y: cut.start.y,
                                 };
@@ -217,7 +217,7 @@ fn main() {
                 if grid.get(x, y).is_taken() && grid.get(x, y + 1) == Square::Good {
                     // Cut where the shape belonging to the current square is closest to the wall
                     if let Some(Square::Taken(s)) = grid.get(x, y) {    
-                        let closest_point = Vec2 {
+                        let mut closest_point = Vec2 {
                             x: 0.0,
                             y: 0.0,
                         };
@@ -230,7 +230,7 @@ fn main() {
                             match cut_type {
                                 Cut::Linear(cut) => {
                                     // Start at the beginning of the cut
-                                    let current_pos = Vec2 {
+                                    let mut current_pos = Vec2 {
                                         x: cut.start.x,
                                         y: cut.start.y,
                                     };
@@ -249,7 +249,7 @@ fn main() {
                                 },
                                 Cut::Curve(cut) => {
                                     // Same as above but curved
-                                    let current_pos = Vec2 {
+                                    let mut current_pos = Vec2 {
                                         x: cut.start.x,
                                         y: cut.start.y,
                                     };
@@ -276,7 +276,7 @@ fn main() {
                 if grid.get(x, y).is_taken() && grid.get(x + 1, y) == Square::Good {
                     // Cut where the shape belonging to the current square is closest to the wall
                     if let Some(Square::Taken(s)) = grid.get(x, y) {    
-                        let closest_point = Vec2 {
+                        let mut closest_point = Vec2 {
                             x: 0.0,
                             y: 0.0,
                         };
@@ -289,7 +289,7 @@ fn main() {
                             match cut_type {
                                 Cut::Linear(cut) => {
                                     // Start at the beginning of the cut
-                                    let current_pos = Vec2 {
+                                    let mut current_pos = Vec2 {
                                         x: cut.start.x,
                                         y: cut.start.y,
                                     };
@@ -308,7 +308,7 @@ fn main() {
                                 },
                                 Cut::Curve(cut) => {
                                     // Same as above but curved
-                                    let current_pos = Vec2 {
+                                    let mut current_pos = Vec2 {
                                         x: cut.start.x,
                                         y: cut.start.y,
                                     };
@@ -361,7 +361,7 @@ fn main() {
     // Add the cuts to gcode
     // Open GCode
     let file = File::open(filename).unwrap();
-    let lines = BufReader::new(file).lines().map(|l| l.unwrap()).collect::<Vec<String>>();
+    let mut lines = BufReader::new(file).lines().map(|l| l.unwrap()).collect::<Vec<String>>();
     while !lines.pop().unwrap().starts_with("G00") {}
     for cut in cuts
     {
