@@ -51,7 +51,7 @@ impl CurveCut {
         }
     }
 
-    fn capture(start: Vec2, instruction: &str, clockwise: bool) -> LinearCut {
+    fn capture(start: Vec2, instruction: &str, clockwise: bool) -> CurveCut {
         let captures = curve_regex.captures(&line).unwrap();
         let end = Vec2 {
             x: captures.get(1).map_or("Panic", |m| m.as_str()).parse::<f32>().unwrap(),
