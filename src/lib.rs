@@ -170,19 +170,19 @@ mod tests {
             y: 0.0,
         };
 
-        for i in 0..10 {
+        for _ in 0..10 {
             if vector == linear_end { break; }
             vector.move_towards(linear_end, 0.15);
         }
         assert_eq!(vector, linear_end);
 
-        for i in 0..25 {
+        for _ in 0..25 {
             if vector == curve_end { break; }
             vector.curve_towards(curve_end, center, 0.15, false);
         }
         assert_eq!(vector, curve_end);
 
-        for i in 0..25 {
+        for _ in 0..25 {
             if vector == linear_end { break; }
             vector.curve_towards(linear_end, center, 0.15, true);
         }
