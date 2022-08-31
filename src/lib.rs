@@ -194,16 +194,16 @@ mod tests {
 
     #[test]
     fn distance() {
-        let d = Vec2::distance(Vec2 { x: 0.0, y: 0.0 }, Vec2 { x: 1.0, y: 0.0 })
+        let d = Vec2::distance(Vec2 { x: 0.0, y: 0.0 }, Vec2 { x: 1.0, y: 0.0 });
         assert!(d > 0.9 && d < 1.1, "{:?}", d);
 
-        let d = Vec2::distance(Vec2 { x: 2.0, y: 0.0 }, Vec2 { x: 0.0, y: 0.0 })
+        let d = Vec2::distance(Vec2 { x: 2.0, y: 0.0 }, Vec2 { x: 0.0, y: 0.0 });
         assert!(d > 1.9 && d < 2.1, "{:?}", d);
 
-        let d = Vec2::distance(Vec2 { x: 0.0, y: 0.0 }, Vec2 { x: 1.0, y: 1.0 })
+        let d = Vec2::distance(Vec2 { x: 0.0, y: 0.0 }, Vec2 { x: 1.0, y: 1.0 });
         assert!(d > 1.4 && d < 1.5, "{:?}", d);
 
-        let d = Vec2::distance(Vec2 { x: -1.0, y: -1.0 }, Vec2 { x: 1.0, y: 1.0 })
+        let d = Vec2::distance(Vec2 { x: -1.0, y: -1.0 }, Vec2 { x: 1.0, y: 1.0 });
         assert!(d > 1.9 && d < 2.1, "{:?}", d);
     }
 
