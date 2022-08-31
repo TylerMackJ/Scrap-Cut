@@ -16,15 +16,16 @@ fn main() {
     let mut grid: Grid<Square> = Grid::new(48, 96, 2, Square::Free);
 
     // Place shapes onto grid
-    find_taken(&mut grid, "./gcode.gm");
+    let filename = "./gcode.gm";
+    let shape_cuts = find_taken(&mut grid, &filename[..]);
     
     find_good_and_scrap(&mut grid);
 
-    find_cuts(&grid);
+    let cuts = find_cuts(&grid, shape_cuts);
 
     // Add the cuts to gcode
     // Open GCode
-    let file = File::open(filename).unwrap();
+    let file = File::open(&filename[..]).unwrap();
     let mut lines = BufReader::new(file).lines().map(|l| l.unwrap()).collect::<Vec<String>>();
     while !lines.pop().unwrap().starts_with("G00") {}
     for cut in cuts
@@ -38,7 +39,7 @@ fn main() {
     fs::write(filename, lines.join("\n")).unwrap();
 }
 
-fn find_taken(&mut grid: Grid<Square>, filename: &str) {
+fn find_taken(grid: &mut Grid<Square>, filename: &str) -> Vec<Vec<Cut>> {
     // Open GCode
     let file = File::open(filename).unwrap();
     let file_buf = BufReader::new(file);
@@ -114,9 +115,10 @@ fn find_taken(&mut grid: Grid<Square>, filename: &str) {
             current_shape += 1;
         }
     }
+    shape_cuts
 }
 
-fn find_good_and_scrap(&mut grid: Grid<Square>) {
+fn find_good_and_scrap(grid: &mut Grid<Square>) {
     // Find all the Square::Scrap and Square::Good squares
     for x in 0..grid.width {
         for y in 0..grid.height {
@@ -140,7 +142,7 @@ fn find_good_and_scrap(&mut grid: Grid<Square>) {
     }
 }
 
-fn find_cuts(&grid) -> Vec<LinearCut> {
+fn find_cuts(grid: &Grid<Square>, shape_cuts: Vec<Vec<Cut>>) -> Vec<LinearCut> {
     // Find all the cuts
     let mut cuts: Vec<LinearCut> = Vec::new();
     for x in 0..grid.width {
