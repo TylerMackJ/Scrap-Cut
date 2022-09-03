@@ -19,7 +19,7 @@ impl Vec2 {
 
     pub fn move_towards(&mut self, to: Vec2, step: f32) {
         // Find the distance between the points
-        let distance = Self::distance(&self, &to);
+        let distance = Self::distance(self, &to);
 
         // Figure out the ratio to step by
         let t = step / distance;
@@ -38,7 +38,7 @@ impl Vec2 {
         // Consider angles positive and use radians
 
         // Get the radius of the curve
-        let radius = Self::distance(&self, &center_point);
+        let radius = Self::distance(self, &center_point);
         // Find what degree results in an arclength = step
         let step_angle = step / radius;
 

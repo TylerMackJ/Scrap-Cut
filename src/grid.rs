@@ -27,12 +27,12 @@ impl<T: Clone> Grid<T> {
             grid: vec![default; (width / resolution) * (height / resolution)],
             width: width / resolution,
             height: height / resolution,
-            resolution: resolution,
+            resolution,
         }
     }
 
     pub fn get(&self, x: usize, y: usize) -> Option<&T> {
-        return if (0..self.width).contains(&x) && (0..self.height).contains(&y) {
+        if (0..self.width).contains(&x) && (0..self.height).contains(&y) {
             Some(&self[(x, y)])
         } else {
             None
@@ -40,7 +40,7 @@ impl<T: Clone> Grid<T> {
     }
 
     pub fn get_mut(&mut self, x: usize, y: usize) -> Option<&mut T> {
-        return if (0..self.width).contains(&x) && (0..self.height).contains(&y) {
+        if (0..self.width).contains(&x) && (0..self.height).contains(&y) {
             Some(&mut self[(x, y)])
         } else {
             None
@@ -62,7 +62,7 @@ impl<T: Clone> Grid<T> {
     pub fn sheet_get_mut(&mut self, x: f32, y: f32) -> Option<&mut T> {
         let rough_x = (x / self.resolution as f32) as usize;
         let rough_y = (y / self.resolution as f32) as usize;
-        return if (0..self.width).contains(&rough_x) && (0..self.height).contains(&rough_y) {
+        if (0..self.width).contains(&rough_x) && (0..self.height).contains(&rough_y) {
             Some(&mut self[(rough_x, rough_y)])
         } else {
             None

@@ -1,4 +1,4 @@
-#[derive(Copy, Clone, Debug, PartialEq)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub enum Square { Free, Taken(usize), Scrap, Good }
 
 pub trait IsTaken {
@@ -26,7 +26,7 @@ impl PartialEq<Square> for &Square {
 
 impl PartialEq<Square> for Option<&Square> {
     fn eq(&self, other: &Square) -> bool {
-        return match self {
+        match self {
             Some(s) => *s == other,
             None => false,
         }
