@@ -379,9 +379,145 @@ fn find_cuts(grid: &Grid<Square>, shape_cuts: Vec<Vec<Cut>>) -> Vec<LinearCut> {
                     }
                 }
             }
-            if good_count == 2 && x_taken.is_some() && y_taken.is_some() {
-                // Cut the thinnest point between xTaken and yTaken
-                todo!();
+            if good_count == 2 && let Some(Square::Taken(x_s)) = x_taken && if let Some(Square::Taken(y_s)) = y_taken {
+                let mut x_point = Vec2 {
+                    x: 0.0,
+                    y: 0.0,
+                }
+                let mut y_point = Vec2 {
+                    x: 0.0,
+                    y: 0.0,
+                }
+
+                for x_cut_type in shape_cuts.get(*x_s).unwrap() {
+                    // Determine type of cut
+                    match cut_type {
+                        Cut::Linear(cut) => {
+                            // Start at the beginning of the cut
+                            let mut x_current_pos = Vec2 {
+                                x: cut.start.x,
+                                y: cut.start.y,
+                            };
+
+                            // Step through cut
+                            while x_current_pos != cut.end {
+                                // Loop over all cuts related the shape
+                                for cut_type in shape_cuts.get(*y_s).unwrap() {
+                                    // Determine type of cut
+                                    match cut_type {
+                                        Cut::Linear(cut) => {
+                                            // Start at the beginning of the cut
+                                            let mut y_current_pos = Vec2 {
+                                                x: cut.start.x,
+                                                y: cut.start.y,
+                                            };
+
+                                            // Step through cut
+                                            while y_current_pos != cut.end {
+                                                // If current position makes smaller cut save it
+                                                if Vec2::distance(&Vec2 { x: x_current_pos.x, y: x_current_pos.y }, &Vec2 { x: y_current_pos.x, y: y_current_pos.y }) < Vec2::distance(&Vec2 { x: x_point.x, y: x_point.y }, &Vec2 { x: y_point.x, y: y_point.y }) {
+                                                    x_point.x = x_current_pos.x;
+                                                    x_point.y = x_current_pos.y;
+                                                    y_point.x = y_current_pos.x;
+                                                    y_point.y = y_current_pos.y;
+                                                }
+                                        
+                                                // Continue cut
+                                                y_current_pos.move_towards(cut.end, 0.1);
+                                            }
+                                        },
+                                        Cut::Curve(cut) => {
+                                            // Same as above but curved
+                                            let mut y_current_pos = Vec2 {
+                                                x: cut.start.x,
+                                                y: cut.start.y,
+                                            };
+
+                                            // Step through cut
+                                            while y_current_pos != cut.end {
+                                                // If current position makes smaller cut save it
+                                                if Vec2::distance(&Vec2 { x: x_current_pos.x, y: x_current_pos.y }, &Vec2 { x: y_current_pos.x, y: y_current_pos.y }) < Vec2::distance(&Vec2 { x: x_point.x, y: x_point.y }, &Vec2 { x: y_point.x, y: y_point.y }) {
+                                                    x_point.x = x_current_pos.x;
+                                                    x_point.y = x_current_pos.y;
+                                                    y_point.x = y_current_pos.x;
+                                                    y_point.y = y_current_pos.y;
+                                                }
+
+                                                y_current_pos.curve_towards(cut.end, cut.center, 0.1, cut.clockwise)
+                                            }
+                                        }
+                                    }
+                                }
+                        
+                                // Continue cut
+                                x_current_pos.move_towards(cut.end, 0.1);
+                            }
+                        },
+                        Cut::Curve(cut) => {
+                            // Same as above but curved
+                            // Start at the beginning of the cut
+                            let mut x_current_pos = Vec2 {
+                                x: cut.start.x,
+                                y: cut.start.y,
+                            };
+
+                            // Step through cut
+                            while x_current_pos != cut.end {
+                                // Loop over all cuts related the shape
+                                for cut_type in shape_cuts.get(*y_s).unwrap() {
+                                    // Determine type of cut
+                                    match cut_type {
+                                        Cut::Linear(cut) => {
+                                            // Start at the beginning of the cut
+                                            let mut y_current_pos = Vec2 {
+                                                x: cut.start.x,
+                                                y: cut.start.y,
+                                            };
+
+                                            // Step through cut
+                                            while y_current_pos != cut.end {
+                                                // If current position makes smaller cut save it
+                                                if Vec2::distance(&Vec2 { x: x_current_pos.x, y: x_current_pos.y }, &Vec2 { x: y_current_pos.x, y: y_current_pos.y }) < Vec2::distance(&Vec2 { x: x_point.x, y: x_point.y }, &Vec2 { x: y_point.x, y: y_point.y }) {
+                                                    x_point.x = x_current_pos.x;
+                                                    x_point.y = x_current_pos.y;
+                                                    y_point.x = y_current_pos.x;
+                                                    y_point.y = y_current_pos.y;
+                                                }
+                                        
+                                                // Continue cut
+                                                y_current_pos.move_towards(cut.end, 0.1);
+                                            }
+                                        },
+                                        Cut::Curve(cut) => {
+                                            // Same as above but curved
+                                            let mut y_current_pos = Vec2 {
+                                                x: cut.start.x,
+                                                y: cut.start.y,
+                                            };
+
+                                            // Step through cut
+                                            while y_current_pos != cut.end {
+                                                // If current position makes smaller cut save it
+                                                if Vec2::distance(&Vec2 { x: x_current_pos.x, y: x_current_pos.y }, &Vec2 { x: y_current_pos.x, y: y_current_pos.y }) < Vec2::distance(&Vec2 { x: x_point.x, y: x_point.y }, &Vec2 { x: y_point.x, y: y_point.y }) {
+                                                    x_point.x = x_current_pos.x;
+                                                    x_point.y = x_current_pos.y;
+                                                    y_point.x = y_current_pos.x;
+                                                    y_point.y = y_current_pos.y;
+                                                }
+
+                                                y_current_pos.curve_towards(cut.end, cut.center, 0.1, cut.clockwise)
+                                            }
+                                        }
+                                    }
+                                }
+
+                                x_current_pos.curve_towards(cut.end, cut.center, 0.1, cut.clockwise)
+                            }
+                        }
+                    }
+                }
+                // Save the smallest found cut
+                cuts.push(LinearCut::new(x_point, y_point));
             }
         }
     }
