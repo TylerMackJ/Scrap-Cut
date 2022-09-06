@@ -393,29 +393,29 @@ fn find_cuts(grid: &Grid<Square>, shape_cuts: Vec<Vec<Cut>>) -> Vec<LinearCut> {
 
                         for x_cut_type in shape_cuts.get(*x_s).unwrap() {
                             // Determine type of cut
-                            match cut_type {
-                                Cut::Linear(cut) => {
+                            match x_cut_type {
+                                Cut::Linear(x_cut) => {
                                     // Start at the beginning of the cut
                                     let mut x_current_pos = Vec2 {
-                                        x: cut.start.x,
-                                        y: cut.start.y,
+                                        x: x_cut.start.x,
+                                        y: x_cut.start.y,
                                     };
 
                                     // Step through cut
-                                    while x_current_pos != cut.end {
+                                    while x_current_pos != x_cut.end {
                                         // Loop over all cuts related the shape
-                                        for cut_type in shape_cuts.get(*y_s).unwrap() {
+                                        for y_cut_type in shape_cuts.get(*y_s).unwrap() {
                                             // Determine type of cut
-                                            match cut_type {
-                                                Cut::Linear(cut) => {
+                                            match y_cut_type {
+                                                Cut::Linear(y_cut) => {
                                                     // Start at the beginning of the cut
                                                     let mut y_current_pos = Vec2 {
-                                                        x: cut.start.x,
-                                                        y: cut.start.y,
+                                                        x: y_cut.start.x,
+                                                        y: y_cut.start.y,
                                                     };
 
                                                     // Step through cut
-                                                    while y_current_pos != cut.end {
+                                                    while y_current_pos != y_cut.end {
                                                         // If current position makes smaller cut save it
                                                         if Vec2::distance(&Vec2 { x: x_current_pos.x, y: x_current_pos.y }, &Vec2 { x: y_current_pos.x, y: y_current_pos.y }) < Vec2::distance(&Vec2 { x: x_point.x, y: x_point.y }, &Vec2 { x: y_point.x, y: y_point.y }) {
                                                             x_point.x = x_current_pos.x;
@@ -425,18 +425,18 @@ fn find_cuts(grid: &Grid<Square>, shape_cuts: Vec<Vec<Cut>>) -> Vec<LinearCut> {
                                                         }
                                                 
                                                         // Continue cut
-                                                        y_current_pos.move_towards(cut.end, 0.1);
+                                                        y_current_pos.move_towards(y_cut.end, 0.1);
                                                     }
                                                 },
-                                                Cut::Curve(cut) => {
+                                                Cut::Curve(y_cut) => {
                                                     // Same as above but curved
                                                     let mut y_current_pos = Vec2 {
-                                                        x: cut.start.x,
-                                                        y: cut.start.y,
+                                                        x: y_cut.start.x,
+                                                        y: y_cut.start.y,
                                                     };
 
                                                     // Step through cut
-                                                    while y_current_pos != cut.end {
+                                                    while y_current_pos != y_cut.end {
                                                         // If current position makes smaller cut save it
                                                         if Vec2::distance(&Vec2 { x: x_current_pos.x, y: x_current_pos.y }, &Vec2 { x: y_current_pos.x, y: y_current_pos.y }) < Vec2::distance(&Vec2 { x: x_point.x, y: x_point.y }, &Vec2 { x: y_point.x, y: y_point.y }) {
                                                             x_point.x = x_current_pos.x;
@@ -445,39 +445,39 @@ fn find_cuts(grid: &Grid<Square>, shape_cuts: Vec<Vec<Cut>>) -> Vec<LinearCut> {
                                                             y_point.y = y_current_pos.y;
                                                         }
 
-                                                        y_current_pos.curve_towards(cut.end, cut.center, 0.1, cut.clockwise)
+                                                        y_current_pos.curve_towards(y_cut.end, y_cut.center, 0.1, y_cut.clockwise)
                                                     }
                                                 }
                                             }
                                         }
                                 
                                         // Continue cut
-                                        x_current_pos.move_towards(cut.end, 0.1);
+                                        x_current_pos.move_towards(x_cut.end, 0.1);
                                     }
                                 },
-                                Cut::Curve(cut) => {
+                                Cut::Curve(x_cut) => {
                                     // Same as above but curved
                                     // Start at the beginning of the cut
                                     let mut x_current_pos = Vec2 {
-                                        x: cut.start.x,
-                                        y: cut.start.y,
+                                        x: x_cut.start.x,
+                                        y: x_cut.start.y,
                                     };
 
                                     // Step through cut
-                                    while x_current_pos != cut.end {
+                                    while x_current_pos != x_cut.end {
                                         // Loop over all cuts related the shape
-                                        for cut_type in shape_cuts.get(*y_s).unwrap() {
+                                        for y_cut_type in shape_cuts.get(*y_s).unwrap() {
                                             // Determine type of cut
-                                            match cut_type {
-                                                Cut::Linear(cut) => {
+                                            match y_cut_type {
+                                                Cut::Linear(y_cut) => {
                                                     // Start at the beginning of the cut
                                                     let mut y_current_pos = Vec2 {
-                                                        x: cut.start.x,
-                                                        y: cut.start.y,
+                                                        x: y_cut.start.x,
+                                                        y: y_cut.start.y,
                                                     };
 
                                                     // Step through cut
-                                                    while y_current_pos != cut.end {
+                                                    while y_current_pos != y_cut.end {
                                                         // If current position makes smaller cut save it
                                                         if Vec2::distance(&Vec2 { x: x_current_pos.x, y: x_current_pos.y }, &Vec2 { x: y_current_pos.x, y: y_current_pos.y }) < Vec2::distance(&Vec2 { x: x_point.x, y: x_point.y }, &Vec2 { x: y_point.x, y: y_point.y }) {
                                                             x_point.x = x_current_pos.x;
@@ -487,18 +487,18 @@ fn find_cuts(grid: &Grid<Square>, shape_cuts: Vec<Vec<Cut>>) -> Vec<LinearCut> {
                                                         }
                                                 
                                                         // Continue cut
-                                                        y_current_pos.move_towards(cut.end, 0.1);
+                                                        y_current_pos.move_towards(y_cut.end, 0.1);
                                                     }
                                                 },
-                                                Cut::Curve(cut) => {
+                                                Cut::Curve(y_cut) => {
                                                     // Same as above but curved
                                                     let mut y_current_pos = Vec2 {
-                                                        x: cut.start.x,
-                                                        y: cut.start.y,
+                                                        x: y_cut.start.x,
+                                                        y: y_cut.start.y,
                                                     };
 
                                                     // Step through cut
-                                                    while y_current_pos != cut.end {
+                                                    while y_current_pos != y_cut.end {
                                                         // If current position makes smaller cut save it
                                                         if Vec2::distance(&Vec2 { x: x_current_pos.x, y: x_current_pos.y }, &Vec2 { x: y_current_pos.x, y: y_current_pos.y }) < Vec2::distance(&Vec2 { x: x_point.x, y: x_point.y }, &Vec2 { x: y_point.x, y: y_point.y }) {
                                                             x_point.x = x_current_pos.x;
@@ -507,13 +507,13 @@ fn find_cuts(grid: &Grid<Square>, shape_cuts: Vec<Vec<Cut>>) -> Vec<LinearCut> {
                                                             y_point.y = y_current_pos.y;
                                                         }
 
-                                                        y_current_pos.curve_towards(cut.end, cut.center, 0.1, cut.clockwise)
+                                                        y_current_pos.curve_towards(y_cut.end, y_cut.center, 0.1, y_cut.clockwise)
                                                     }
                                                 }
                                             }
                                         }
 
-                                        x_current_pos.curve_towards(cut.end, cut.center, 0.1, cut.clockwise)
+                                        x_current_pos.curve_towards(x_cut.end, x_cut.center, 0.1, x_cut.clockwise)
                                     }
                                 }
                             }
