@@ -77,14 +77,13 @@ fn find_taken(grid: &mut Grid<Square>, filename: &str) -> Vec<Vec<Cut>> {
                         *mut_ref = Square::Taken(current_shape);
                     }
                 }
+
+                // Save cut for later
+                shape_cuts.get_mut(current_shape).unwrap().push(Cut::Linear(cut));
             } else {
                 // If we are not cutting then we can jump to final position
                 head = cut.end;
             }
-
-            // Save cut for later
-            shape_cuts.get_mut(current_shape).unwrap().push(Cut::Linear(cut));
-
         } else if line.starts_with("G02") || line.starts_with("G03") { // Check for angular movement instructions
             // Capture cut
             let cut: CurveCut = CurveCut::capture(&head, &line[..], line.starts_with("G02"));
@@ -97,15 +96,15 @@ fn find_taken(grid: &mut Grid<Square>, filename: &str) -> Vec<Vec<Cut>> {
                         *mut_ref = Square::Taken(current_shape);
                     }
                 }
+
+                // Save cut for later
+                shape_cuts.get_mut(current_shape).unwrap().push(Cut::Curve(cut));
             } else {
                 // If we are not cutting then we can jump to final position
                 //head = cut.end;
                 // This case should not occur, non cutting lines should be linear
                 panic!("Non linear movement while not cutting found!");
             }
-
-            // Save cut for later
-            shape_cuts.get_mut(current_shape).unwrap().push(Cut::Curve(cut));
         }
         
         // Check for disable cutting instruction
